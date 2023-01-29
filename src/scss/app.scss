@@ -4,16 +4,19 @@
 @import './components/all';
 
 .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-image: url(../assets/images/background.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     max-width: 1400px;
     height: 100vh;
-    margin: 20px auto;
+    margin: 0 auto;
     border-radius: 10px;
     padding: 20px;
     font-family: $main-font-family;
-    overflow-y: auto;
+    overflow: hidden;
     box-sizing: border-box;
     text-align: center;
 }
