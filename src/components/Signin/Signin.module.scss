@@ -1,41 +1,10 @@
 @import '../../scss/variables';
 
-.main_container {
-    background-image: url(../../assets/images/background.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    max-width: 1400px;
-    height: 100vh;
-    margin: 20px auto;
-    border-radius: 10px;
-    padding: 20px;
-    font-family: $main-font-family;
-    overflow-y: auto;
-    box-sizing: border-box;
-    text-align: center;
-}
+/* main block */
+
 main {
     margin: 80px auto;
 }
-
-/* header block */
-
-.heading_container {
-    margin: 10px;
-    padding: 20px;
-    font-family: $secondary-font-family;
-    border: 1px solid $white;
-    border-radius: 10px;
-    box-shadow: 4px 6px 6px $black;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.headingLeft {
-    margin-left: 20px;
-}
-
-/* main block */
 
 .avatar {
     width: 160px;
