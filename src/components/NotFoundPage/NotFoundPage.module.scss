@@ -1,0 +1,15 @@
+@import '../../scss/variables';
+@import '../../scss/libs/normalize.scss';
+
+@import '../../scss/components/all.scss';
+
+.root {
+    text-align: center;
+    margin: 20% auto;
+    font-size: 42px;
+    p {
+        color: $color-hover;
+        font-weight: bold;
+        font-size: 32px;
+    }
+}
