@@ -1,0 +1,58 @@
+@import '../../scss/variables';
+@import '../../scss/libs/normalize.scss';
+
+@import '../../scss/components/all.scss';
+
+section {
+    flex: 1 0 auto;
+}
+.wrapper {
+    display: flex;
+    margin: 20px 0;
+    text-align: left;
+}
+.wrapper__column {
+    flex: 0 0 33%;
+    line-height: 2.5;
+}
+.description_book {
+    display: flex;
+    flex-wrap: wrap;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}
+.description {
+    font-weight: bold;
+    font-size: 24px;
+}
+.book_value {
+    font-weight: 800;
+    margin-left: 10px;
+    color: $white;
+}
+.tags {
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 10px;
+}
+.book_cover {
+    border: 1px solid black;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 2px 4px 4px $black;
+}
+.column_price {
+    padding-left: 30%;
+}
+.count {
+    font-weight: bold;
+    font-size: var(--main-font-size);
+}
+.input_count {
+    padding: 10px;
+    margin-left: 5px;
+    border-radius: 10px;
+    max-width: 60px;
+    outline: none;
+    border: none;
+}

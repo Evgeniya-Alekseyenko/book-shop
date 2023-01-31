@@ -4,9 +4,11 @@
 @import '../../scss/components/all.scss';
 
 .root {
+    margin-top: 100px;
     text-align: center;
-    margin: 20% auto;
     font-size: 42px;
+    flex: 1 0 auto;
+
     p {
         color: $color-hover;
         font-weight: bold;
