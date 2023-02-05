@@ -2,7 +2,7 @@ import styles from './SpecificBook.module.scss';
 
 import cover from '../../assets/books/angular_up_and_running.jpg';
 
-const SpecificBook = () => {
+const SpecificBook = ({ title, author }) => {
     return (
         <section>
             <div className={styles.wrapper}>
@@ -20,15 +20,11 @@ const SpecificBook = () => {
                 <div className={styles.wrapper__column}>
                     <h2>
                         Book name:
-                        <span className={styles.book_value}>
-                            Angular Up & Running
-                        </span>
+                        <span className={styles.book_value}>{title}</span>
                     </h2>
                     <h2>
                         Book author:
-                        <span className={styles.book_value}>
-                            Shyam Seshadri
-                        </span>
+                        <span className={styles.book_value}>{author}</span>
                     </h2>
                     <p>
                         <span className={styles.tags}>Book level:</span>Beginner

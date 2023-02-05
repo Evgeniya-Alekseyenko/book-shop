@@ -5,6 +5,7 @@
 
 section {
     flex: 1 0 auto;
+    padding: 20px;
 }
 .wrapper {
     display: flex;
@@ -13,7 +14,7 @@ section {
 }
 .wrapper__column {
     flex: 0 0 33%;
-    line-height: 2.5;
+    line-height: 2;
 }
 .description_book {
     display: flex;
@@ -28,7 +29,7 @@ section {
 .book_value {
     font-weight: 800;
     margin-left: 10px;
-    color: $white;
+    color: $color-hover;
 }
 .tags {
     font-weight: bold;
@@ -36,7 +37,7 @@ section {
     margin-right: 10px;
 }
 .book_cover {
-    border: 1px solid black;
+    border: 1px solid $black;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 2px 4px 4px $black;
@@ -46,7 +47,7 @@ section {
 }
 .count {
     font-weight: bold;
-    font-size: var(--main-font-size);
+    font-size: $main-font-size;
 }
 .input_count {
     padding: 10px;
@@ -55,4 +56,32 @@ section {
     max-width: 60px;
     outline: none;
     border: none;
+}
+// pageBook block
+
+.card {
+    text-align: left;
+    border: 1px solid $black;
+    border-radius: 10px;
+    width: 300px;
+    padding: 30px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 4px 6px 6px $black;
+    font-size: 12px;
+    background-color: $white;
+}
+.column {
+    justify-content: center;
+    margin: 0 auto;
+    font-family: $main-font-family;
+}
+.card_footer {
+    display: flex;
+    justify-content: space-between;
+}
+.price_desc {
+    color: $color-hover;
 }
