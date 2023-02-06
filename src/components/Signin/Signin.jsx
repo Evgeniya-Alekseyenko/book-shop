@@ -6,22 +6,22 @@ function Signin() {
     return (
         <main>
             <img className={styles.avatar} src={avatar} alt='avatar' />
-            <form action='/handling-form-page' method='post'>
+            <div>
+                <label className={styles.username}>Username</label>
                 <div>
-                    <label className={styles.username}>Username</label>
-                    <div>
-                        <input
-                            type='text'
-                            className={styles.name}
-                            name='user_name'
-                            placeholder='type Username'
-                        />
-                    </div>
+                    <input
+                        type='text'
+                        className={styles.name}
+                        name='user_name'
+                        placeholder='type Username'
+                    />
                 </div>
+            </div>
+            <a href='/booklist'>
                 <button type='submit' className={styles.btn}>
                     Sign-in
                 </button>
-            </form>
+            </a>
         </main>
     );
 }
