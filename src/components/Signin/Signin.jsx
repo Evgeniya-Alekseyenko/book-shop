@@ -11,7 +11,7 @@ function Signin() {
 
     useEffect(() => {
         setDisBtn(userName.length < 4 || userName.length > 16);
-        // setUserName(userName);
+        setUserName(userName);
         setUserNameError(
             userName.length > 16
                 ? 'Username must be at least 4 characters and not more than 16'

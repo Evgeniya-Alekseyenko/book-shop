@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react';
 
 import PageBook from '../Specific-book/PageBook';
+import Sort from '../Sort';
 
 import styles from './Booklist.module.scss';
 
 function Booklist() {
     const [items, setItems] = useState([]);
+    const [sortType, setSortType] = useState({
+        name: 'Всі',
+        sortProperty: 'all',
+    });
 
     useEffect(() => {
         fetch('https://63da5cca2af48a60a7cbb748.mockapi.io/books')
@@ -42,8 +47,9 @@ function Booklist() {
                     </div>
                 </div>
 
-                <div>
-                    <select name='select' className={styles.select}>
+                {/* <div> */}
+                <Sort value={sortType} onChangeSort={(i) => setSortType(i)} />
+                {/* <select name='select' className={styles.select}>
                         <option
                             className={styles.options}
                             value='value1'
@@ -53,8 +59,8 @@ function Booklist() {
                         </option>
                         <option value='value2'>Name</option>
                         <option value='value3'>Popularity</option>
-                    </select>
-                </div>
+                    </select> */}
+                {/* </div> */}
             </section>
             <section id='cards'>
                 <div className={styles.card_container}>
