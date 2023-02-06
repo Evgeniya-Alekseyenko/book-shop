@@ -40,6 +40,16 @@ main {
     width: 200px;
 }
 
+.btn_disabled {
+    width: 200px;
+    padding: 10px 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px $black;
+    font-family: $secondary-font-family;
+    font-size: $main-font-size;
+}
+
 /* media queries */
 
 @media (max-width: 320px) {

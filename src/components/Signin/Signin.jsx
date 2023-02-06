@@ -7,18 +7,26 @@ import styles from './Signin.module.scss';
 function Signin() {
     const [userName, setUserName] = useState('');
     const [disBtn, setDisBtn] = useState(false);
-    console.log(userName);
+    const [userNameError, setUserNameError] = useState('');
 
     useEffect(() => {
         setDisBtn(userName.length < 4 || userName.length > 16);
-        setUserName(userName);
-    }, [userName]);
+        // setUserName(userName);
+        setUserNameError(
+            userName.length > 16
+                ? 'Username must be at least 4 characters and not more than 16'
+                : ''
+        );
+    }, [userName, userNameError]);
 
     return (
         <main>
             <img className={styles.avatar} src={avatar} alt='avatar' />
             <div>
-                <label className={styles.username}>Username</label>
+                <div className={styles.username}>Username</div>
+                {userNameError && (
+                    <div style={{ color: 'red' }}>{userNameError}</div>
+                )}
                 <div>
                     <input
                         value={userName}
@@ -26,12 +34,17 @@ function Signin() {
                         type='text'
                         className={styles.name}
                         name='user_name'
-                        placeholder='type Username'
+                        placeholder='type more than 4 characters'
                     />
                 </div>
             </div>
             <a href='/booklist'>
-                <button disabled={disBtn} type='submit' className={styles.btn}>
+                <button
+                    onClick={() => userNameError}
+                    disabled={disBtn}
+                    type='submit'
+                    className={disBtn ? styles.btn_disabled : styles.btn}
+                >
                     Sign-in
                 </button>
             </a>
