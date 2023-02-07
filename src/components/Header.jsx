@@ -1,6 +1,13 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { UserContext } from '../App';
+
 function Header() {
+    const { userName } = React.useContext(UserContext);
+    // const [name, setName] = React.useState();
+    // console.log(userName);
+
     return (
         <header>
             <div className='header'>
@@ -10,6 +17,7 @@ function Header() {
                         Sign-Out
                     </button>
                 </Link>
+                <span>{userName}</span>
             </div>
         </header>
     );

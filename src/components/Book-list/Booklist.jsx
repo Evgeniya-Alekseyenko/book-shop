@@ -46,21 +46,7 @@ function Booklist() {
                         />
                     </div>
                 </div>
-
-                {/* <div> */}
                 <Sort value={sortType} onChangeSort={(i) => setSortType(i)} />
-                {/* <select name='select' className={styles.select}>
-                        <option
-                            className={styles.options}
-                            value='value1'
-                            defaultValue
-                        >
-                            Price
-                        </option>
-                        <option value='value2'>Name</option>
-                        <option value='value3'>Popularity</option>
-                    </select> */}
-                {/* </div> */}
             </section>
             <section id='cards'>
                 <div className={styles.card_container}>

@@ -1,8 +1,12 @@
 import styles from './SpecificBook.module.scss';
 
 import cover from '../../assets/books/angular_up_and_running.jpg';
+// import { useState, useEffect } from 'react';
 
 const SpecificBook = ({ title, author }) => {
+    // const [items, setItems] = useState([]);
+    // console.log(items);
+
     return (
         <section>
             <div className={styles.wrapper}>
