@@ -2,7 +2,16 @@ import { Link } from 'react-router-dom';
 
 import styles from './SpecificBook.module.scss';
 
-const PageBook = ({ id, title, author, price, image }) => {
+const PageBook = ({
+    id,
+    title,
+    author,
+    price,
+    image,
+    shortDescription,
+    description,
+}) => {
+    // console.log(shortDescription);
     return (
         <div className={styles.card}>
             <div className={styles.wrapper__column}>
@@ -30,9 +39,18 @@ const PageBook = ({ id, title, author, price, image }) => {
                         <span className={styles.price_desc}>Price: </span>$
                         {price}
                     </h2>
-                    {/* <Link to={`/book/id`}> */}
-
-                    <Link to='/book'>
+                    <Link
+                        to={{ pathname: `book/${id}` }}
+                        state={{
+                            id,
+                            title,
+                            author,
+                            price,
+                            image,
+                            shortDescription,
+                            description,
+                        }}
+                    >
                         <button className={styles.btn}>View</button>
                     </Link>
                 </div>

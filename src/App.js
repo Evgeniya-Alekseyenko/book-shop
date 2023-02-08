@@ -10,28 +10,38 @@ import NotFoundBlock from './components/NotFoundPage/NotFoundPage.jsx';
 
 import './scss/app.scss';
 
-export const UserContext = React.createContext();
+// export const UserContext = React.createContext();
 
 function App() {
-    const [userName, setUserName] = React.useState('');
+    // const [userName, setUserName] = React.useState('');
 
     // localStorage.setItem('username', userName);
     // const name = localStorage.getItem('username');
     // console.log(name);
-    // console.log(userName);
+    // console.log('app username', userName);
+
+    // const [isAuth, setIsAuth] = React.useState(false);
+
+    // useEffect(() => {
+    //     setIsAuth(if (localStorage.name ? isAuth==='true'){}
+
+    // }, [userName, setUserName]);
 
     return (
         <div className='wrapper'>
-            <UserContext.Provider value={{ userName, setUserName }}>
-                <Header />
-                <Routes>
-                    <Route path='/' element={<Signin />} />
-                    <Route path='/booklist' element={<Booklist />} />
-                    <Route path='/book' element={<SpecificBook />} />
-                    <Route path='*' element={<NotFoundBlock />} />
-                </Routes>
-                <Footer />
-            </UserContext.Provider>
+            {/* <UserContext.Provider value={}> */}
+            <Header />
+            <Routes>
+                <Route path='/' element={<Signin />} />
+                <Route path='/booklist' element={<Booklist />} />
+                <Route
+                    path='/booklist/book/:bookId'
+                    element={<SpecificBook />}
+                />
+                <Route path='*' element={<NotFoundBlock />} />
+            </Routes>
+            <Footer />
+            {/* </UserContext.Provider> */}
         </div>
     );
 }

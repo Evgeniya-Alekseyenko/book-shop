@@ -3,7 +3,7 @@
 .btn {
     font-family: $secondary-font-family;
     font-size: $main-font-size;
-    border-radius: 10px;
+    border-radius: $border-radius;
 }
 button.btn {
     font-weight: 500;
