@@ -1,6 +1,7 @@
 import styles from './SpecificBook.module.scss';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import { useModal } from 'react-hooks-use-modal';
 
 const SpecificBook = ({
     title,
@@ -11,6 +12,11 @@ const SpecificBook = ({
     description,
 }) => {
     const book = useLocation().state;
+
+    const [Modal, open, close, isOpen] = useModal('root', {
+        preventScroll: true,
+        closeOnOverlayClick: false,
+    });
 
     return (
         <section>
@@ -74,9 +80,31 @@ const SpecificBook = ({
                     </div>
                 </div>
             </div>
-            <div className={styles.description_book}>
+            {/* <div className={styles.description_book}>
                 <span className={styles.description}>Description:</span>
                 {book.description}
+            </div> */}
+            <div className={styles.description_book}>
+                <div className={styles.description}>
+                    {isOpen
+                        ? 'Read more about the book'
+                        : 'More about the book'}
+                </div>{' '}
+                ▶
+                <button onClick={open} className={styles.btn}>
+                    OPEN
+                </button>
+                <Modal>
+                    <div className={styles.modal}>
+                        <h1>{book.title}</h1>
+                        <p>{book.description}</p>
+                        <div>
+                            <button onClick={close} className={styles.btn}>
+                                CLOSE
+                            </button>
+                        </div>
+                    </div>
+                </Modal>
             </div>
         </section>
     );
