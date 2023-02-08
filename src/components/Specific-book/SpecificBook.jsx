@@ -1,11 +1,16 @@
 import styles from './SpecificBook.module.scss';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 
-import cover from '../../assets/books/angular_up_and_running.jpg';
-// import { useState, useEffect } from 'react';
-
-const SpecificBook = ({ title, author }) => {
-    // const [items, setItems] = useState([]);
-    // console.log(items);
+const SpecificBook = ({
+    title,
+    author,
+    image,
+    price,
+    shortDescription,
+    description,
+}) => {
+    const book = useLocation().state;
 
     return (
         <section>
@@ -13,28 +18,26 @@ const SpecificBook = ({ title, author }) => {
                 <div className={styles.wrapper__column}>
                     <img
                         className={styles.book_cover}
-                        src={cover}
+                        src={
+                            book.image
+                                ? book.image
+                                : 'https://via.placeholder.com/250x328.png?text=No+Image'
+                        }
                         alt="book's foto"
                     />
-                    <div className={styles.description_book}>
-                        <span className={styles.description}>Description:</span>
-                        A book providing an introduction to the Angular
-                    </div>
                 </div>
                 <div className={styles.wrapper__column}>
                     <h2>
                         Book name:
-                        <span className={styles.book_value}>{title}</span>
+                        <span className={styles.book_value}>{book.title}</span>
                     </h2>
                     <h2>
                         Book author:
-                        <span className={styles.book_value}>{author}</span>
+                        <span className={styles.book_value}>{book.author}</span>
                     </h2>
                     <p>
-                        <span className={styles.tags}>Book level:</span>Beginner
-                    </p>
-                    <p>
-                        <span className={styles.tags}>Book tags:</span>core
+                        <span className={styles.tags}>Short description:</span>{' '}
+                        {book.shortDescription}
                     </p>
                 </div>
                 <div className={styles.wrapper__column}>
@@ -42,7 +45,7 @@ const SpecificBook = ({ title, author }) => {
                         <h3 className={styles.count}>
                             Price:
                             <span className={styles.book_value} id='price'>
-                                52.72
+                                {book.price}
                             </span>
                         </h3>
                         <form>
@@ -70,6 +73,10 @@ const SpecificBook = ({ title, author }) => {
                         </form>
                     </div>
                 </div>
+            </div>
+            <div className={styles.description_book}>
+                <span className={styles.description}>Description:</span>
+                {book.description}
             </div>
         </section>
     );
