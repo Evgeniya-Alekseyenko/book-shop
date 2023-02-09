@@ -14,7 +14,9 @@ function Header() {
     return (
         <header>
             <div className='header'>
-                <h1>X-course task / Прізвище Ім’я</h1>
+                <Link to='/'>
+                    <h1>X-course task / Прізвище Ім’я</h1>
+                </Link>
                 {/* <span>{name}</span> */}
 
                 <Link to='/'>

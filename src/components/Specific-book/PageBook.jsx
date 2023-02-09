@@ -11,7 +11,6 @@ const PageBook = ({
     shortDescription,
     description,
 }) => {
-    // console.log(shortDescription);
     return (
         <div className={styles.card}>
             <div className={styles.wrapper__column}>

@@ -1,7 +1,8 @@
-import styles from './SpecificBook.module.scss';
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import { useModal } from 'react-hooks-use-modal';
+
+import styles from './SpecificBook.module.scss';
 
 const SpecificBook = ({
     title,
@@ -12,6 +13,20 @@ const SpecificBook = ({
     description,
 }) => {
     const book = useLocation().state;
+
+    const [inputValue, setInputValue] = useState(1);
+    const [totalPrice, setTotalPrice] = useState(book.price);
+    const [inputError, setInputError] = useState('');
+
+    useEffect(() => {
+        if (inputValue > 0 && inputValue <= 42) {
+            setTotalPrice(inputValue * book.price);
+            setInputError('');
+        } else {
+            setInputError('You can enter more than 1 and less than 42');
+            setInputValue('');
+        }
+    }, [inputValue, book.price]);
 
     const [Modal, open, close, isOpen] = useModal('root', {
         preventScroll: true,
@@ -42,7 +57,7 @@ const SpecificBook = ({
                         <span className={styles.book_value}>{book.author}</span>
                     </h2>
                     <p>
-                        <span className={styles.tags}>Short description:</span>{' '}
+                        <span className={styles.tags}>Short description:</span>
                         {book.shortDescription}
                     </p>
                 </div>
@@ -54,42 +69,46 @@ const SpecificBook = ({
                                 {book.price}
                             </span>
                         </h3>
-                        <form>
-                            <label className={styles.count}>Count</label>
-                            <input
-                                type='number'
-                                placeholder='0'
-                                id='count'
-                                name='count'
-                                className={styles.input_count}
-                            />
-                            <div className={styles.count}>
-                                Total price:
-                                <span
-                                    className={styles.book_value}
-                                    id='totalPrice'
-                                ></span>
-                            </div>
-                            <div className={styles.btn}>
+                        {inputError && (
+                            <div style={{ color: 'red' }}>{inputError}</div>
+                        )}
+                        <label className={styles.count}>Count: </label>
+                        <input
+                            value={inputValue}
+                            onChange={(e) =>
+                                setInputValue(Math.round(e.target.value))
+                            }
+                            type='number'
+                            name='count'
+                            className={styles.input_count}
+                        />
+                        <div className={styles.count}>
+                            Total price:
+                            <span className={styles.book_value} id='totalPrice'>
+                                {totalPrice}
+                            </span>
+                        </div>
+                        <div>
+                            <button type='submit' className={styles.btn}>
+                                Add to cart
+                            </button>
+                        </div>
+                        <Link to='/booklist'>
+                            <div>
                                 <button type='submit' className={styles.btn}>
-                                    Add to cart
+                                    Back to book list
                                 </button>
-                                <div className={styles.btn_particles}></div>
                             </div>
-                        </form>
+                        </Link>
                     </div>
                 </div>
             </div>
-            {/* <div className={styles.description_book}>
-                <span className={styles.description}>Description:</span>
-                {book.description}
-            </div> */}
             <div className={styles.description_book}>
                 <div className={styles.description}>
                     {isOpen
                         ? 'Read more about the book'
                         : 'More about the book'}
-                </div>{' '}
+                </div>
                 ▶
                 <button onClick={open} className={styles.btn}>
                     OPEN
