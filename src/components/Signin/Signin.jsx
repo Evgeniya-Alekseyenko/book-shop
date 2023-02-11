@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import avatar from '../../assets/images/avatar.png';
-// import { UserContext } from '../../App';
 
 import styles from './Signin.module.scss';
 
@@ -10,61 +9,67 @@ function Signin() {
     const [userName, setUserName] = useState('');
     const [disBtn, setDisBtn] = useState(false);
     const [userNameError, setUserNameError] = useState('');
-    // const [isAuth, setIsAuth] = useState(false);
 
-    // const { userName, setUserName } = React.useContext(UserContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const fromPage = location.state?.from?.pathname || '/booklist';
 
-    // const name = localStorage.getItem('username');
-    // console.log(userName);
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const user = form.username.value;
+
+        if (!localStorage.getItem('user')) {
+            localStorage.setItem('user', JSON.stringify(user));
+            // navigate('/booklist');
+            navigate(fromPage, { replace: true });
+        }
+    };
+    useEffect(() => {
+        if (localStorage.getItem('user')) {
+            navigate('/booklist');
+        }
+    }, [navigate]);
 
     useEffect(() => {
         setDisBtn(userName.length < 4 || userName.length > 16);
-        // setUserName(name);
+        setUserName(userName);
         setUserNameError(
             userName.length > 16
                 ? 'Username must be at least 4 characters and not more than 16'
                 : ''
         );
-        // if (userName.length > 4 || userName.length < 16) {
-        //     // setIsAuth(true);
-        localStorage.setItem('username', userName);
-        // }
-    }, [userName, setUserName]);
-
-    // console.log(isAuth);
+    }, [userName]);
 
     return (
         <main>
             <img className={styles.avatar} src={avatar} alt='avatar' />
-            <div>
-                <div className={styles.username}>Username</div>
-                {userNameError && (
-                    <div style={{ color: 'red' }}>{userNameError}</div>
-                )}
-                <div>
-                    {/* <div>{isAuth ? name : 'no name'}</div> */}
-
-                    <input
-                        value={userName}
-                        onChange={(e) => setUserName(e.target.value)}
-                        type='text'
-                        className={styles.name}
-                        name='user_name'
-                        placeholder='type more than 4 characters'
-                    />
-                </div>
-            </div>
-            <a href='/booklist'>
+            <div className={styles.username}>Username</div>
+            {userNameError && (
+                <div style={{ color: 'red' }}>{userNameError}</div>
+            )}
+            <form onSubmit={handleSubmit}>
+                <label>
+                    <div>
+                        <input
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value.trim())}
+                            type='text'
+                            className={styles.name}
+                            name='username'
+                            placeholder='type more than 4 characters'
+                        />
+                    </div>
+                </label>
                 <button
                     onClick={() => userNameError}
-                    // onClick={() => setUserName(name)}
                     disabled={disBtn}
                     type='submit'
                     className={disBtn ? styles.btn_disabled : styles.btn}
                 >
                     Sign-in
                 </button>
-            </a>
+            </form>
         </main>
     );
 }
