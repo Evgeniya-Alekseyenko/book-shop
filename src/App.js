@@ -7,6 +7,7 @@ import Signin from './components/Signin/Signin.jsx';
 import SpecificBook from './components/Specific-book/SpecificBook.jsx';
 import Booklist from './components/Book-list/Booklist.jsx';
 import NotFoundBlock from './components/NotFoundPage/NotFoundPage.jsx';
+import CartEmpty from './components/Cart/CartEmpty.jsx';
 
 import { RequireAuth } from './hooks/RequireAuth.jsx';
 
@@ -34,6 +35,15 @@ function App() {
                     element={
                         <RequireAuth>
                             <SpecificBook />
+                        </RequireAuth>
+                    }
+                />
+
+                <Route
+                    path='/cart'
+                    element={
+                        <RequireAuth>
+                            <CartEmpty />
                         </RequireAuth>
                     }
                 />

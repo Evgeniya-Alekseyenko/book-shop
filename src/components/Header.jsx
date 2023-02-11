@@ -27,9 +27,11 @@ function Header() {
                         <h1>X-course task / Alekseyenko Yevgeniya</h1>
                     </Link>
                     <div className='header_left'>
-                        <div>
-                            <img src={cart} alt='cart' width={50} />
-                        </div>
+                        <Link to='/cart'>
+                            <div>
+                                <img src={cart} alt='cart' width={50} />
+                            </div>
+                        </Link>
                         <div className='userInfo'>
                             <img src={avatar} alt='avatar' width={50} />
                             <span>{user}</span>

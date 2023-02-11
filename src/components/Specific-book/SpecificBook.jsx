@@ -85,10 +85,10 @@ const SpecificBook = ({
                         <div className={styles.count}>
                             Total price:
                             <span className={styles.book_value} id='totalPrice'>
-                                {totalPrice}
+                                {totalPrice.toFixed(2)}
                             </span>
                         </div>
-                        <div>
+                        <div className={styles.btn_box}>
                             <button type='submit' className={styles.btn}>
                                 Add to cart
                             </button>
