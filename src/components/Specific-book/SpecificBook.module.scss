@@ -16,6 +16,7 @@ section {
     flex: 0 0 33%;
     line-height: 2;
 }
+
 .description_book {
     display: flex;
     flex-wrap: wrap;
@@ -45,6 +46,7 @@ section {
     border: 1px solid $black;
     border-radius: 20px;
     max-height: 330px;
+    margin-bottom: 10px;
     overflow: hidden;
     box-shadow: 2px 4px 4px $black;
 }

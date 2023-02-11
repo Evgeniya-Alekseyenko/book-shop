@@ -11,6 +11,9 @@ const PageBook = ({
     shortDescription,
     description,
 }) => {
+    const truncate = (title) =>
+        title.length > 24 ? title.slice(0, 24 - 1) + '...' : title;
+
     return (
         <div className={styles.card}>
             <div className={styles.wrapper__column}>
@@ -27,7 +30,7 @@ const PageBook = ({
             <div className={styles.wrapper__column}>
                 <h2>
                     Book name:
-                    <span className={styles.book_value}>{title}</span>
+                    <span className={styles.book_value}>{truncate(title)}</span>
                 </h2>
                 <h2>
                     Book author:
