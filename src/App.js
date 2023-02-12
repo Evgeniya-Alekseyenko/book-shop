@@ -7,9 +7,10 @@ import Signin from './components/Signin/Signin.jsx';
 import SpecificBook from './components/Specific-book/SpecificBook.jsx';
 import Booklist from './components/Book-list/Booklist.jsx';
 import NotFoundBlock from './components/NotFoundPage/NotFoundPage.jsx';
-import CartEmpty from './components/Cart/CartEmpty.jsx';
+import Cart from './components/Cart/Cart.jsx';
 
 import { RequireAuth } from './hooks/RequireAuth.jsx';
+// import { AuthProvider } from './context/AuthProvider.jsx';
 
 import './scss/app.scss';
 
@@ -43,7 +44,7 @@ function App() {
                     path='/cart'
                     element={
                         <RequireAuth>
-                            <CartEmpty />
+                            <Cart />
                         </RequireAuth>
                     }
                 />
@@ -55,7 +56,6 @@ function App() {
                             {user ? <NotFoundBlock /> : <Signin />}
                         </RequireAuth>
                     }
-                    // element={user ? <NotFoundBlock /> : <Signin />}
                 />
             </Routes>
             <Footer />
