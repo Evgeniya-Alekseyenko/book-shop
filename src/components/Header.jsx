@@ -15,7 +15,7 @@ function Header() {
 
     const handleSubmit = () => {
         localStorage.removeItem('user');
-        // navigate('/');
+        localStorage.removeItem('cart');
         navigate(fromPage, { replace: true });
     };
 
