@@ -3,14 +3,16 @@
 
 @import '../../scss/components/all';
 
-.cart_container {
+.cartEmptyBox {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
 .btn {
     margin-top: 60px;
+    max-width: 300px;
     background-color: $black;
     color: $white;
     text-transform: uppercase;
@@ -23,4 +25,19 @@
     &:active {
         background-color: lighten($color: $black, $amount: 30);
     }
+}
+.cart_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: $main-font-family;
+    font-size: $main-font-size;
+    border: 1px solid $black;
+    border-radius: $border-radius;
+    box-shadow: 0px 15px 25px $black;
+    padding: 20px;
+}
+.cart_data {
+    font-weight: bold;
+    color: $color-hover;
 }
