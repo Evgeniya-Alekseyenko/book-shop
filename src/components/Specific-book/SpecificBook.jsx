@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+
 import { useModal } from 'react-hooks-use-modal';
 
 import styles from './SpecificBook.module.scss';
@@ -18,6 +19,8 @@ const SpecificBook = ({
     const [totalPrice, setTotalPrice] = useState(book.price);
     const [inputError, setInputError] = useState('');
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         if (inputValue > 0 && inputValue <= 42) {
             setTotalPrice(inputValue * book.price);
@@ -27,6 +30,41 @@ const SpecificBook = ({
             setInputValue('');
         }
     }, [inputValue, book.price]);
+
+    const onAddToCart = () => {
+        if (inputValue) {
+            const cart =
+                localStorage.getItem('cart') == null
+                    ? []
+                    : JSON.parse(localStorage.getItem('cart'));
+            for (let cartItemIndex in cart) {
+                if (cart[cartItemIndex].id === book.id) {
+                    cart[cartItemIndex].image = book.image;
+                    cart[cartItemIndex].title = book.title;
+                    cart[cartItemIndex].price = book.price;
+                    cart[cartItemIndex].count =
+                        cart[cartItemIndex].count + inputValue;
+                    cart[cartItemIndex].total =
+                        Math.round(
+                            cart[cartItemIndex].count * book.price * 100
+                        ) / 100;
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    return;
+                }
+            }
+            const cartBook = {
+                id: book.id,
+                image: book.image,
+                title: book.title,
+                price: book.price,
+                count: inputValue,
+                total: Math.round(inputValue * book.price * 100) / 100,
+            };
+            cart.push(cartBook);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            navigate('/booklist');
+        }
+    };
 
     const [Modal, open, close, isOpen] = useModal('root', {
         preventScroll: true,
@@ -89,7 +127,11 @@ const SpecificBook = ({
                             </span>
                         </div>
                         <div className={styles.btn_box}>
-                            <button type='submit' className={styles.btn}>
+                            <button
+                                type='submit'
+                                className={styles.btn}
+                                onClick={onAddToCart}
+                            >
                                 Add to cart
                             </button>
                         </div>
@@ -128,4 +170,5 @@ const SpecificBook = ({
         </section>
     );
 };
+
 export default SpecificBook;
