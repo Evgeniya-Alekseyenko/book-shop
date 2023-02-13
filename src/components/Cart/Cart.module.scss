@@ -62,4 +62,9 @@
 }
 .btn_trash {
     color: $color-hover;
+    transition: color, transform 500ms ease;
+}
+.btn_trash:hover {
+    color: red;
+    transform: (scale(1.5));
 }
