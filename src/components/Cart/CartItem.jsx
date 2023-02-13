@@ -1,8 +1,19 @@
 import React from 'react';
 
 import styles from './Cart.module.scss';
+import { FaTrash } from 'react-icons/fa';
 
-const CartItem = ({ image, price, title, count, total }) => {
+const CartItem = ({ image, price, title, count, total, id }) => {
+    // const cart = JSON.parse(localStorage.getItem('cart'));
+    // // console.log(cart);
+
+    // const onRemove = (id) => {
+    //     let item = cart.find((el) => el.id === id);
+    //     let index = cart.indexOf(item);
+    //     cart.slice(index, 1);
+    //     console.log(cart);
+    // };
+
     return (
         <main>
             <div className={styles.cart_container}>
@@ -35,6 +46,9 @@ const CartItem = ({ image, price, title, count, total }) => {
                     <span className={styles.cart_title}>Total price: </span>
                     <span className={styles.cart_data}>{total}</span>
                 </div>
+                <button className={styles.trash_box}>
+                    <FaTrash className={styles.btn_trash} />
+                </button>
             </div>
         </main>
     );
