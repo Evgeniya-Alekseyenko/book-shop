@@ -8,6 +8,20 @@ import CartItem from './CartItem';
 const Cart = () => {
     const cart = JSON.parse(localStorage.getItem('cart'));
 
+    console.log(cart);
+
+    const cartTotal = () => {
+        if (cart) {
+            let overall = 0;
+            for (let item of cart) {
+                overall += item.total;
+            }
+            return overall.toFixed(2);
+        } else {
+            <CartEmpty />;
+        }
+    };
+
     const navigate = useNavigate();
     const location = useLocation();
     const fromPage = location.state?.from?.pathname || '/cart';
@@ -19,7 +33,7 @@ const Cart = () => {
 
     return (
         <>
-            <div>
+            <div className={styles.btn_container}>
                 <button className={styles.btn} onClick={handleSubmit}>
                     Purchase
                 </button>
@@ -30,6 +44,7 @@ const Cart = () => {
                 ) : (
                     <CartEmpty />
                 )}
+                <div className={styles.amount}>Total amount: {cartTotal()}</div>
             </main>
         </>
     );

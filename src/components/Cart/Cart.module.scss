@@ -9,9 +9,12 @@
     justify-content: center;
     align-items: center;
 }
-
+.btn_container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
 .btn {
-    margin-top: 60px;
     max-width: 300px;
     background-color: $black;
     color: $white;
@@ -36,8 +39,21 @@
     border-radius: $border-radius;
     box-shadow: 0px 15px 25px $black;
     padding: 20px;
+    background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0.3));
 }
 .cart_data {
     font-weight: bold;
     color: $color-hover;
+}
+.cart_title {
+    margin-right: 5px;
+    font-weight: bold;
+}
+.amount {
+    font-weight: bold;
+    font-family: $main-font-family;
+    font-size: $main-font-size;
+    color: $color-hover;
+    margin: 20px;
+    text-align: end;
 }

@@ -21,7 +21,6 @@ function Signin() {
 
         if (!localStorage.getItem('user')) {
             localStorage.setItem('user', JSON.stringify(user));
-            // navigate('/booklist');
             navigate(fromPage, { replace: true });
         }
     };
