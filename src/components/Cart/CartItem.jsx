@@ -18,24 +18,22 @@ const CartItem = ({ image, price, title, count, total }) => {
                     />
                 </div>
                 <div>
-                    <div>Book name: </div>
+                    <div className={styles.cart_title}>Book name: </div>
                     <div className={styles.cart_data}>{title}</div>
                 </div>
                 <div>
                     <div>
-                        Book count:
+                        <span className={styles.cart_title}>Book count:</span>
                         <span className={styles.cart_data}>{count}</span>
                     </div>
                     <div>
-                        Price for 1:
+                        <span className={styles.cart_title}>Price for 1:</span>
                         <span className={styles.cart_data}>{price} $</span>
                     </div>
                 </div>
                 <div>
-                    <span>
-                        Total price:
-                        <span className={styles.cart_data}>{total}</span>
-                    </span>
+                    <span className={styles.cart_title}>Total price: </span>
+                    <span className={styles.cart_data}>{total}</span>
                 </div>
             </div>
         </main>
