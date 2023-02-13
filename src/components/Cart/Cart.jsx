@@ -6,9 +6,9 @@ import CartEmpty from './CartEmpty';
 import CartItem from './CartItem';
 
 const Cart = () => {
-    const cart = JSON.parse(localStorage.getItem('cart'));
+    const [disBtn, setDisBtn] = React.useState(false);
 
-    console.log(cart);
+    const cart = JSON.parse(localStorage.getItem('cart'));
 
     const cartTotal = () => {
         if (cart) {
@@ -30,11 +30,18 @@ const Cart = () => {
         localStorage.removeItem('cart');
         navigate(fromPage, { replace: true });
     };
+    React.useEffect(() => {
+        setDisBtn(!cart);
+    }, [cart]);
 
     return (
         <>
             <div className={styles.btn_container}>
-                <button className={styles.btn} onClick={handleSubmit}>
+                <button
+                    className={disBtn ? styles.btn_disabled : styles.btn}
+                    onClick={handleSubmit}
+                    disabled={disBtn}
+                >
                     Purchase
                 </button>
             </div>
@@ -44,7 +51,13 @@ const Cart = () => {
                 ) : (
                     <CartEmpty />
                 )}
-                <div className={styles.amount}>Total amount: {cartTotal()}</div>
+                {cart !== null ? (
+                    <div className={styles.amount}>
+                        Total amount: {cartTotal()}
+                    </div>
+                ) : (
+                    ''
+                )}
             </main>
         </>
     );

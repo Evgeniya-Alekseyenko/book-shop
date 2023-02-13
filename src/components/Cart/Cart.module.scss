@@ -29,6 +29,15 @@
         background-color: lighten($color: $black, $amount: 30);
     }
 }
+.btn_disabled {
+    width: 200px;
+    padding: 10px 20px;
+    margin: 20px;
+    border-radius: $border-radius;
+    box-shadow: 4px 4px 4px $black;
+    font-family: $secondary-font-family;
+    font-size: $main-font-size;
+}
 .cart_container {
     display: flex;
     align-items: center;
