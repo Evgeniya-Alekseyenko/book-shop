@@ -14,52 +14,58 @@ import { RequireAuth } from './hooks/RequireAuth.jsx';
 
 import './scss/app.scss';
 
+export const SearchContext = React.createContext();
+
 const user = JSON.parse(localStorage.getItem('user'));
 
 function App() {
+    const [searchValue, setSearchValue] = React.useState('');
+
     return (
         <div className='wrapper'>
             {/* <AuthProvider> */}
-            <Header />
-            <Routes>
-                <Route path='/' element={<Signin />} />
-                <Route
-                    path='/booklist'
-                    element={
-                        <RequireAuth>
-                            <Booklist />
-                        </RequireAuth>
-                    }
-                />
-                <Route
-                    path='/booklist/book/:bookId'
-                    element={
-                        <RequireAuth>
-                            <SpecificBook />
-                        </RequireAuth>
-                    }
-                />
+            <SearchContext.Provider value={{ searchValue, setSearchValue }}>
+                <Header />
+                <Routes>
+                    <Route path='/' element={<Signin />} />
+                    <Route
+                        path='/booklist'
+                        element={
+                            <RequireAuth>
+                                <Booklist searchValue={searchValue} />
+                            </RequireAuth>
+                        }
+                    />
+                    <Route
+                        path='/booklist/book/:bookId'
+                        element={
+                            <RequireAuth>
+                                <SpecificBook />
+                            </RequireAuth>
+                        }
+                    />
 
-                <Route
-                    path='/cart'
-                    element={
-                        <RequireAuth>
-                            <Cart />
-                        </RequireAuth>
-                    }
-                />
+                    <Route
+                        path='/cart'
+                        element={
+                            <RequireAuth>
+                                <Cart />
+                            </RequireAuth>
+                        }
+                    />
 
-                <Route
-                    path='*'
-                    element={
-                        <RequireAuth>
-                            {user ? <NotFoundBlock /> : <Signin />}
-                        </RequireAuth>
-                    }
-                />
-            </Routes>
-            <Footer />
-            {/* </AuthProvider> */}
+                    <Route
+                        path='*'
+                        element={
+                            <RequireAuth>
+                                {user ? <NotFoundBlock /> : <Signin />}
+                            </RequireAuth>
+                        }
+                    />
+                </Routes>
+                <Footer />
+                {/* </AuthProvider> */}
+            </SearchContext.Provider>
         </div>
     );
 }

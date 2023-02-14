@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+
+import { SearchContext } from '../../App';
 
 import PageBook from '../Specific-book/PageBook';
 import Sort from '../Sort';
@@ -11,14 +13,19 @@ function Booklist() {
         name: 'Всі',
         sortProperty: 'all',
     });
+    const { searchValue, setSearchValue } = useContext(SearchContext);
 
     useEffect(() => {
-        fetch('https://63da5cca2af48a60a7cbb748.mockapi.io/books')
+        fetch(
+            `https://63da5cca2af48a60a7cbb748.mockapi.io/books?${
+                searchValue ? `&title=${searchValue}` : ''
+            }`
+        )
             .then((response) => response.json())
             .then((arr) => {
                 setItems(arr);
             });
-    }, []);
+    }, [searchValue]);
 
     return (
         <main>
@@ -39,6 +46,10 @@ function Booklist() {
                             </svg>
                         </span>
                         <input
+                            value={searchValue}
+                            onChange={(event) =>
+                                setSearchValue(event.target.value)
+                            }
                             className={styles.search}
                             type='search'
                             id='search'
