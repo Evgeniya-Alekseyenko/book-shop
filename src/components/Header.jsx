@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import { useLocation, useNavigate } from 'react-router-dom';
+import { BigHead } from '@bigheads/core';
 
+import { getRandomOptions } from '../utils/bigheads';
 import cart from '../assets/images/cart.svg';
-import avatar from '../assets/images/avatar.png';
 
 function Header() {
     const navigate = useNavigate();
@@ -32,10 +32,6 @@ function Header() {
                                 <img src={cart} alt='cart' width={50} />
                             </div>
                         </Link>
-                        <div className='userInfo'>
-                            <img src={avatar} alt='avatar' width={50} />
-                            <span>{user}</span>
-                        </div>
                         <div>
                             <button
                                 type='submit'
@@ -44,6 +40,12 @@ function Header() {
                             >
                                 Sign-Out
                             </button>
+                        </div>
+                        <div className='userInfo'>
+                            <div style={{ width: '100px' }}>
+                                <BigHead {...getRandomOptions()} />
+                            </div>
+                            <span>{user}</span>
                         </div>
                     </div>
                 </div>
