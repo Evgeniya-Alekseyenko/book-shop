@@ -64,8 +64,8 @@ function App() {
                     />
                 </Routes>
                 <Footer />
-                {/* </AuthProvider> */}
             </SearchContext.Provider>
+            {/* </AuthProvider> */}
         </div>
     );
 }

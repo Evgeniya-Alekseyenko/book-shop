@@ -33,15 +33,14 @@ const SpecificBook = ({
 
     const onAddToCart = () => {
         if (inputValue) {
-            const cart =
-                localStorage.getItem('cart') == null
-                    ? []
-                    : JSON.parse(localStorage.getItem('cart'));
+            const cart = !localStorage.getItem('cart')
+                ? []
+                : JSON.parse(localStorage.getItem('cart'));
             for (let cartItemIndex in cart) {
                 if (cart[cartItemIndex].id === book.id) {
-                    cart[cartItemIndex].image = book.image;
-                    cart[cartItemIndex].title = book.title;
-                    cart[cartItemIndex].price = book.price;
+                    // cart[cartItemIndex].image = book.image;
+                    // cart[cartItemIndex].title = book.title;
+                    // cart[cartItemIndex].price = book.price;
                     cart[cartItemIndex].count =
                         cart[cartItemIndex].count + inputValue;
                     cart[cartItemIndex].total =
