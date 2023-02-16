@@ -4,14 +4,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { BigHead } from '@bigheads/core';
 
 import { getRandomOptions } from '../utils/bigheads';
-import cart from '../assets/images/cart.svg';
+import cartIcon from '../assets/images/cart.svg';
 
 function Header() {
     const navigate = useNavigate();
     const location = useLocation();
-    const user = JSON.parse(localStorage.getItem('user'));
-
     const fromPage = location.state?.from?.pathname || '/';
+    const user = JSON.parse(localStorage.getItem('user'));
+    const cart = JSON.parse(localStorage.getItem('cart'));
 
     const handleSubmit = () => {
         localStorage.removeItem('user');
@@ -26,12 +26,16 @@ function Header() {
                     <Link to='/booklist'>
                         <h1>X-course task / Alekseyenko Yevgeniya</h1>
                     </Link>
-                    <div className='header_left'>
+                    <div className='header_right'>
                         <Link to='/cart'>
-                            <div>
-                                <img src={cart} alt='cart' width={50} />
+                            <div className='cart'>
+                                <img src={cartIcon} alt='cart' width={50} />
+                                <div className='circle'>
+                                    {cart ? cart.length : 0}
+                                </div>
                             </div>
                         </Link>
+
                         <div>
                             <button
                                 type='submit'

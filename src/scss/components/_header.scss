@@ -11,7 +11,7 @@
     align-items: center;
     justify-content: space-between;
 }
-.header_left {
+.header_right {
     font-size: 24px;
     min-width: 400px;
     display: flex;
@@ -23,5 +23,27 @@
         span {
             margin-left: 10px;
         }
+    }
+    .cart {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        border-radius: 50%;
+    }
+    .circle {
+        display: block;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        transform: translate(-60%, 40%);
+        width: 25px;
+        height: 25px;
+        background-color: grey;
+        border-radius: 50%;
+        color: $white;
+        line-height: 25px;
     }
 }
