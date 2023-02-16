@@ -32,10 +32,12 @@ const Cart = () => {
         if (cart) {
             const newCart = cart.filter((cartItem) => cartItem.id !== id);
             localStorage.setItem('cart', JSON.stringify(newCart));
+
             newCart.length > 0
                 ? setCart(newCart)
                 : localStorage.removeItem('cart') || setCart(null);
         }
+        navigate(fromPage);
     }
 
     return (

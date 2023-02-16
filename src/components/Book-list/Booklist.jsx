@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-
-import { SearchContext } from '../../App';
+import React, { useState, useEffect } from 'react';
 
 import PageBook from '../Specific-book/PageBook';
 import Sort from '../Sort';
@@ -13,7 +11,7 @@ function Booklist() {
         name: 'Всі',
         sortProperty: 'all',
     });
-    const { searchValue, setSearchValue } = useContext(SearchContext);
+    const [searchValue, setSearchValue] = useState('');
 
     useEffect(() => {
         fetch(

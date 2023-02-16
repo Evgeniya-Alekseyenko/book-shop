@@ -38,9 +38,9 @@ const SpecificBook = ({
                 : JSON.parse(localStorage.getItem('cart'));
             for (let cartItemIndex in cart) {
                 if (cart[cartItemIndex].id === book.id) {
-                    // cart[cartItemIndex].image = book.image;
-                    // cart[cartItemIndex].title = book.title;
-                    // cart[cartItemIndex].price = book.price;
+                    cart[cartItemIndex].image = book.image;
+                    cart[cartItemIndex].title = book.title;
+                    cart[cartItemIndex].price = book.price;
                     cart[cartItemIndex].count =
                         cart[cartItemIndex].count + inputValue;
                     cart[cartItemIndex].total =

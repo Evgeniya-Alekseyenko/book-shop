@@ -11,7 +11,7 @@ function Footer() {
                     >
                         Prometheus
                     </a>
-                    © 2022
+                    © 2023
                 </h1>
             </div>
         </footer>
