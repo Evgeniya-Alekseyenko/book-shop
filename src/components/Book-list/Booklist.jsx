@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import PageBook from '../Specific-book/PageBook';
 import Sort from '../Sort';
+import { sortOptions } from '../Sort';
 
 import styles from './Booklist.module.scss';
 
 function Booklist() {
-    const [items, setItems] = useState([]);
-    const [sortType, setSortType] = useState({
-        name: 'Всі',
-        sortProperty: 'all',
-    });
-    const [searchValue, setSearchValue] = useState('');
+    const [items, setItems] = React.useState([]);
+    const [filteredItems, setFilteredItems] = React.useState(null);
+    const [filterType, setFilterType] = React.useState(sortOptions[0]);
+    const [searchValue, setSearchValue] = React.useState('');
 
-    useEffect(() => {
+    React.useEffect(() => {
         fetch(
             `https://63da5cca2af48a60a7cbb748.mockapi.io/books?${
                 searchValue ? `&title=${searchValue}` : ''
@@ -23,7 +22,21 @@ function Booklist() {
             .then((arr) => {
                 setItems(arr);
             });
+        setFilterType(sortOptions[0]);
+        setFilteredItems(null);
     }, [searchValue]);
+
+    function filter(filterType) {
+        const new_items = items
+            .filter(
+                (item) =>
+                    filterType.priceFilter.min_price <= item.price &&
+                    item.price <= filterType.priceFilter.max_price
+            )
+            .sort((a, b) => a.price - b.price);
+        setFilteredItems(new_items);
+        setFilterType(filterType);
+    }
 
     return (
         <main>
@@ -55,11 +68,15 @@ function Booklist() {
                         />
                     </div>
                 </div>
-                <Sort value={sortType} onChangeSort={(i) => setSortType(i)} />
+                <Sort
+                    value={filterType}
+                    setsort={setFilterType}
+                    onChangeSort={(i) => filter(i)}
+                />
             </section>
             <section id='cards'>
                 <div className={styles.card_container}>
-                    {items.map((obj) => (
+                    {(filteredItems ?? items).map((obj) => (
                         <PageBook key={obj.id} {...obj} />
                     ))}
                 </div>

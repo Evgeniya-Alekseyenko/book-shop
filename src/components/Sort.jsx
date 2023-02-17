@@ -1,13 +1,30 @@
-import { useState } from 'react';
+import React from 'react';
+
+export const sortOptions = [
+    {
+        name: 'All books',
+        sortProperty: 'all',
+        priceFilter: { min_price: 0, max_price: Infinity },
+    },
+    {
+        name: `Below $15`,
+        sortProperty: 'price',
+        priceFilter: { min_price: 0, max_price: 15 },
+    },
+    {
+        name: 'From $15 to $30',
+        sortProperty: 'price',
+        priceFilter: { min_price: 15, max_price: 30 },
+    },
+    {
+        name: 'Above $30',
+        sortProperty: 'price',
+        priceFilter: { min_price: 30, max_price: Infinity },
+    },
+];
 
 function Sort({ value, onChangeSort }) {
-    const [open, setOpen] = useState(false);
-    const list = [
-        { name: 'Всі', sortProperty: 'all' },
-        { name: '0 < ціна < 15', sortProperty: 'up to 15' },
-        { name: '15 < ціна < 30', sortProperty: 'up to 30' },
-        { name: 'ціна > 30', sortProperty: 'over 30' },
-    ];
+    const [open, setOpen] = React.useState(false);
 
     const onClickListItem = (i) => {
         onChangeSort(i);
@@ -29,13 +46,14 @@ function Sort({ value, onChangeSort }) {
                         fill='#2C2C2C'
                     />
                 </svg>
-                <span className='sort-title'>Сортувати за ціною: </span>
+                <span className='sort-title'>Sort by: </span>
                 <span onClick={() => setOpen(!open)}>{value.name}</span>
             </div>
+
             {open ? (
                 <div className='sort__popup'>
                     <ul>
-                        {list.map((obj, i) => (
+                        {sortOptions.map((obj, i) => (
                             <li
                                 key={i}
                                 onClick={() => {

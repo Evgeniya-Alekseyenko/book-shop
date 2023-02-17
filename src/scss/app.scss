@@ -16,6 +16,7 @@
     padding: 20px;
     font-family: $main-font-family;
     overflow: scroll;
+    overflow-x: hidden;
     box-sizing: border-box;
     text-align: center;
 }
