@@ -1,42 +1,29 @@
 import React from 'react';
+import { useModal } from 'react-hooks-use-modal';
 
 import PageBook from '../Specific-book/PageBook';
 import Sort from '../Sort';
 import { sortOptions } from '../Sort';
+import { MainContext } from '../../context/MainContext';
 
 import styles from './Booklist.module.scss';
 
 function Booklist() {
-    const [items, setItems] = React.useState([]);
+    const { books } = React.useContext(MainContext);
     const [filteredItems, setFilteredItems] = React.useState(null);
-    const [filterType, setFilterType] = React.useState(sortOptions[0]);
-    const [searchValue, setSearchValue] = React.useState('');
+    const [filterPrice, setFilterPrice] = React.useState(sortOptions[0]);
+    const [filterSearch, setFilterSearch] = React.useState('');
 
-    React.useEffect(() => {
-        fetch(
-            `https://63da5cca2af48a60a7cbb748.mockapi.io/books?${
-                searchValue ? `&title=${searchValue}` : ''
-            }`
-        )
-            .then((response) => response.json())
-            .then((arr) => {
-                setItems(arr);
-            });
-        setFilterType(sortOptions[0]);
-        setFilteredItems(null);
-    }, [searchValue]);
+    const [Modal, open, close] = useModal('root', {
+        preventScroll: true,
+        closeOnOverlayClick: false,
+        initialValue: true,
+    });
 
-    function filter(filterType) {
-        const new_items = items
-            .filter(
-                (item) =>
-                    filterType.priceFilter.min_price <= item.price &&
-                    item.price <= filterType.priceFilter.max_price
-            )
-            .sort((a, b) => a.price - b.price);
-        setFilteredItems(new_items);
-        setFilterType(filterType);
-    }
+    const closeModal = () => {
+        close();
+        sessionStorage.setItem('knows_about_offline', true);
+    };
 
     return (
         <main>
@@ -57,10 +44,10 @@ function Booklist() {
                             </svg>
                         </span>
                         <input
-                            value={searchValue}
-                            onChange={(event) =>
-                                setSearchValue(event.target.value)
-                            }
+                            value={filterSearch}
+                            onChange={(value) => {
+                                setFilterSearch(value.target.value);
+                            }}
                             className={styles.search}
                             type='search'
                             id='search'
@@ -69,17 +56,35 @@ function Booklist() {
                     </div>
                 </div>
                 <Sort
-                    value={filterType}
-                    setsort={setFilterType}
-                    onChangeSort={(i) => filter(i)}
+                    value={filterPrice}
+                    onChangeSort={(i) => setFilterPrice(i)}
                 />
             </section>
             <section id='cards'>
                 <div className={styles.card_container}>
-                    {(filteredItems ?? items).map((obj) => (
+                    {(filteredItems ?? books).map((obj) => (
                         <PageBook key={obj.id} {...obj} />
                     ))}
                 </div>
+                {JSON.parse(sessionStorage.getItem('knows_about_offline')) ===
+                    false && (
+                    <Modal onChange={open}>
+                        <div className={styles.modal}>
+                            <h1>
+                                An error occurred while fetching data via API,
+                                using local copy ✅ ↓
+                            </h1>
+                            <div>
+                                <button
+                                    onClick={closeModal}
+                                    className={styles.btn}
+                                >
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </Modal>
+                )}
             </section>
         </main>
     );

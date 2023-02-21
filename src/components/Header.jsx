@@ -16,6 +16,7 @@ function Header() {
     const handleSubmit = () => {
         localStorage.removeItem('user');
         localStorage.removeItem('cart');
+        sessionStorage.removeItem('knows_about_offline');
         navigate(fromPage, { replace: true });
     };
 
