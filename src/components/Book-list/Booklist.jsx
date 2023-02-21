@@ -25,6 +25,29 @@ function Booklist() {
         sessionStorage.setItem('knows_about_offline', true);
     };
 
+    React.useEffect(() => {
+        let result = null;
+        const filterPriceDefault = sortOptions[0];
+        if (filterPrice !== filterPriceDefault || filterSearch !== '') {
+            result = books
+                .filter(
+                    (item) =>
+                        filterPrice.priceFilter.min_price <= item.price &&
+                        item.price <= filterPrice.priceFilter.max_price
+                )
+                .filter((item) =>
+                    item.title
+                        .toLowerCase()
+                        .includes(filterSearch.toLowerCase())
+                );
+        }
+        setFilteredItems(
+            filterPrice !== filterPriceDefault
+                ? result.sort((a, b) => a.price - b.price)
+                : result
+        );
+    }, [filterPrice, filterSearch, books]);
+
     return (
         <main>
             <section className={styles.search_block}>
