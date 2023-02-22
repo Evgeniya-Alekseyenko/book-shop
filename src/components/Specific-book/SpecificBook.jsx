@@ -1,74 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import React from 'react';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 
+import { MainContext } from '../../context/MainContext';
 import { useModal } from 'react-hooks-use-modal';
 
 import styles from './SpecificBook.module.scss';
 
-const SpecificBook = ({
-    title,
-    author,
-    image,
-    price,
-    shortDescription,
-    description,
-}) => {
-    const book = useLocation().state;
-
-    const [inputValue, setInputValue] = useState(1);
-    const [totalPrice, setTotalPrice] = useState(book.price);
-    const [inputError, setInputError] = useState('');
-
+const SpecificBook = () => {
+    const { books } = React.useContext(MainContext);
+    const [book, setBook] = React.useState({});
+    const [inputValue, setInputValue] = React.useState(1);
+    const [totalPrice, setTotalPrice] = React.useState(0);
+    const [inputError, setInputError] = React.useState('');
+    const { bookId } = useParams();
     const navigate = useNavigate();
+    const [Modal, open, close, isOpen] = useModal('root', {
+        preventScroll: true,
+        closeOnOverlayClick: false,
+    });
 
-    useEffect(() => {
-        if (inputValue > 0 && inputValue <= 42) {
-            setTotalPrice(inputValue * book.price);
+    React.useEffect(() => {
+        const totalCount = (inputValue * book.price).toFixed(2);
+        const specificBook = books?.find(
+            (el) => parseInt(el.id) === parseInt(bookId)
+        );
+        if (specificBook) {
+            setBook(specificBook);
+            setTotalPrice(totalCount);
+        }
+        if (book) {
+            setTotalPrice(totalCount);
+        }
+        if (inputValue && inputValue > 0 && inputValue <= 42) {
+            setTotalPrice((inputValue * book.price).toFixed(2));
             setInputError('');
         } else {
             setInputError('You can enter more than 1 and less than 42');
             setInputValue('');
         }
-    }, [inputValue, book.price]);
+    }, [books, bookId, inputValue, book]);
+
+    const createCartItem = (book, count) => ({
+        id: book.id,
+        image: book.image,
+        title: book.title,
+        price: book.price,
+        count: inputValue,
+        total: Math.round(count * book.price * 100) / 100,
+    });
 
     const onAddToCart = () => {
         if (inputValue) {
-            const cart = !localStorage.getItem('cart')
-                ? []
-                : JSON.parse(localStorage.getItem('cart'));
-            for (let cartItemIndex in cart) {
-                if (cart[cartItemIndex].id === book.id) {
-                    cart[cartItemIndex].image = book.image;
-                    cart[cartItemIndex].title = book.title;
-                    cart[cartItemIndex].price = book.price;
-                    cart[cartItemIndex].count =
-                        cart[cartItemIndex].count + inputValue;
-                    cart[cartItemIndex].total =
-                        Math.round(
-                            cart[cartItemIndex].count * book.price * 100
-                        ) / 100;
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                    return;
-                }
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const matchingCartItem = cart.find((item) => item.id === book.id);
+            if (matchingCartItem) {
+                matchingCartItem.image = book.image;
+                matchingCartItem.title = book.title;
+                matchingCartItem.price = book.price;
+                matchingCartItem.count += inputValue;
+                matchingCartItem.total =
+                    Math.round(matchingCartItem.count * book.price * 100) / 100;
+            } else {
+                const cartBook = createCartItem(book, inputValue);
+                cart.push(cartBook);
+                navigate('/booklist');
             }
-            const cartBook = {
-                id: book.id,
-                image: book.image,
-                title: book.title,
-                price: book.price,
-                count: inputValue,
-                total: Math.round(inputValue * book.price * 100) / 100,
-            };
-            cart.push(cartBook);
             localStorage.setItem('cart', JSON.stringify(cart));
-            navigate('/booklist');
         }
     };
-
-    const [Modal, open, close, isOpen] = useModal('root', {
-        preventScroll: true,
-        closeOnOverlayClick: false,
-    });
 
     return (
         <section>
@@ -77,9 +76,8 @@ const SpecificBook = ({
                     <img
                         className={styles.book_cover}
                         src={
-                            book.image
-                                ? book.image
-                                : 'https://via.placeholder.com/250x328.png?text=No+Image'
+                            book?.image ||
+                            'https://via.placeholder.com/250x328.png?text=No+Image'
                         }
                         alt="book's foto"
                     />
@@ -122,7 +120,7 @@ const SpecificBook = ({
                         <div className={styles.count}>
                             Total price:
                             <span className={styles.book_value} id='totalPrice'>
-                                {totalPrice.toFixed(2)}
+                                {totalPrice}
                             </span>
                         </div>
                         <div className={styles.btn_box}>
