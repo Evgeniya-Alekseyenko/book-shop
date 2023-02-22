@@ -13,6 +13,8 @@ import { RequireAuth } from './hooks/RequireAuth.jsx';
 // import { AuthProvider } from './context/AuthProvider.jsx';
 // import { CartContextProvider } from './context/CartProvider.jsx';
 
+import { MainContextProvider } from './context/MainContextProvider';
+
 import './scss/app.scss';
 
 const user = JSON.parse(localStorage.getItem('user'));
@@ -22,48 +24,50 @@ function App() {
         <div className='wrapper'>
             {/* <CartContextProvider> */}
             {/* <AuthProvider> */}
-            <Header />
-            <Routes>
-                <Route path='/' element={<Signin />} />
-                <Route
-                    path='/booklist'
-                    element={
-                        <RequireAuth>
-                            {/* <Booklist searchValue={searchValue} /> */}
-                            <Booklist />
-                        </RequireAuth>
-                    }
-                />
-                <Route
-                    path='/booklist/book/:bookId'
-                    element={
-                        <RequireAuth>
-                            <SpecificBook />
-                        </RequireAuth>
-                    }
-                />
+            <MainContextProvider>
+                <Header />
+                <Routes>
+                    <Route path='/' element={<Signin />} />
+                    <Route
+                        path='/booklist'
+                        element={
+                            <RequireAuth>
+                                {/* <Booklist searchValue={searchValue} /> */}
+                                <Booklist />
+                            </RequireAuth>
+                        }
+                    />
+                    <Route
+                        path='/booklist/book/:bookId'
+                        element={
+                            <RequireAuth>
+                                <SpecificBook />
+                            </RequireAuth>
+                        }
+                    />
 
-                <Route
-                    path='/cart'
-                    element={
-                        <RequireAuth>
-                            <Cart />
-                        </RequireAuth>
-                    }
-                />
+                    <Route
+                        path='/cart'
+                        element={
+                            <RequireAuth>
+                                <Cart />
+                            </RequireAuth>
+                        }
+                    />
 
-                <Route
-                    path='*'
-                    element={
-                        <RequireAuth>
-                            {user ? <NotFoundBlock /> : <Signin />}
-                        </RequireAuth>
-                    }
-                />
-            </Routes>
-            <Footer />
-            {/* </AuthProvider> */}
-            {/* </CartContextProvider> */}
+                    <Route
+                        path='*'
+                        element={
+                            <RequireAuth>
+                                {user ? <NotFoundBlock /> : <Signin />}
+                            </RequireAuth>
+                        }
+                    />
+                </Routes>
+                <Footer />
+                {/* </AuthProvider> */}
+                {/* </CartContextProvider> */}
+            </MainContextProvider>
         </div>
     );
 }
