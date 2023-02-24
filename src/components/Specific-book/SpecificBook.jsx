@@ -18,6 +18,9 @@ const SpecificBook = () => {
         preventScroll: true,
         closeOnOverlayClick: false,
     });
+    const [cartCount, setCartCount] = React.useState(
+        parseInt(localStorage.getItem('cartCount')) || 0
+    );
 
     React.useEffect(() => {
         const totalCount = (inputValue * book.price).toFixed(2);
@@ -26,7 +29,6 @@ const SpecificBook = () => {
         );
         if (specificBook) {
             setBook(specificBook);
-            setTotalPrice(totalCount);
         }
         if (book) {
             setTotalPrice(totalCount);
@@ -63,11 +65,30 @@ const SpecificBook = () => {
             } else {
                 const cartBook = createCartItem(book, inputValue);
                 cart.push(cartBook);
-                navigate('/booklist');
+                navigate('/cart');
             }
             localStorage.setItem('cart', JSON.stringify(cart));
+            const newCartCount = cartCount + inputValue;
+            localStorage.setItem('cartCount', newCartCount);
+            setCartCount(newCartCount);
         }
     };
+
+    const getBookCount = (cart, bookId) => {
+        return cart.reduce((count, cartItem) => {
+            if (cartItem.id === bookId) {
+                return count + cartItem.count;
+            }
+            return count;
+        }, 0);
+    };
+    const count = getBookCount(
+        JSON.parse(localStorage.getItem('cart') || '[]'),
+        book.id
+    );
+    React.useEffect(() => {
+        setCartCount(count);
+    }, [count]);
 
     return (
         <section>
@@ -91,36 +112,46 @@ const SpecificBook = () => {
                         Book author:
                         <span className={styles.book_value}>{book.author}</span>
                     </h2>
-                    <p>
+                    <p className={styles.short_desc}>
                         <span className={styles.tags}>Short description:</span>
                         {book.shortDescription}
                     </p>
                 </div>
                 <div className={styles.wrapper__column}>
                     <div className={styles.column_price}>
-                        <h3 className={styles.count}>
-                            Price:
-                            <span className={styles.book_value} id='price'>
-                                {book.price}
-                            </span>
-                        </h3>
-                        {inputError && (
-                            <div style={{ color: 'red' }}>{inputError}</div>
-                        )}
-                        <label className={styles.count}>Count: </label>
-                        <input
-                            value={inputValue}
-                            onChange={(e) =>
-                                setInputValue(Math.round(e.target.value))
-                            }
-                            type='number'
-                            name='count'
-                            className={styles.input_count}
-                        />
+                        <div>
+                            <h3 className={styles.count}>
+                                Price:
+                                <span className={styles.book_value} id='price'>
+                                    {book.price}
+                                </span>
+                            </h3>
+                        </div>
+                        <div>
+                            {inputError && (
+                                <div style={{ color: 'red' }}>{inputError}</div>
+                            )}
+                            <label className={styles.count}>Count: </label>
+                            <input
+                                value={inputValue}
+                                onChange={(e) =>
+                                    setInputValue(Math.round(e.target.value))
+                                }
+                                type='number'
+                                name='count'
+                                className={styles.input_count}
+                            />
+                        </div>
                         <div className={styles.count}>
                             Total price:
                             <span className={styles.book_value} id='totalPrice'>
                                 {totalPrice}
+                            </span>
+                        </div>
+                        <div className={styles.count}>
+                            Already in cart:
+                            <span className={styles.book_value} id='totalPrice'>
+                                {count}
                             </span>
                         </div>
                         <div className={styles.btn_box}>
@@ -135,7 +166,7 @@ const SpecificBook = () => {
                         <Link to='/booklist'>
                             <div>
                                 <button type='submit' className={styles.btn}>
-                                    Back to book list
+                                    Back to books
                                 </button>
                             </div>
                         </Link>
