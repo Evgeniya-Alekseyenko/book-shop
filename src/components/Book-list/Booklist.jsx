@@ -5,6 +5,8 @@ import PageBook from '../Specific-book/PageBook';
 import Sort from '../Sort';
 import { sortOptions } from '../Sort';
 import { MainContext } from '../../context/MainContext';
+import Loader from '../Loader';
+import _debounce from 'lodash/debounce';
 
 import styles from './Booklist.module.scss';
 
@@ -13,6 +15,7 @@ function Booklist() {
     const [filteredItems, setFilteredItems] = React.useState(null);
     const [filterPrice, setFilterPrice] = React.useState(sortOptions[0]);
     const [filterSearch, setFilterSearch] = React.useState('');
+    const [isLoading, setIsLoading] = React.useState(true);
 
     const [Modal, open, close] = useModal('root', {
         preventScroll: true,
@@ -25,9 +28,32 @@ function Booklist() {
         sessionStorage.setItem('knows_about_offline', true);
     };
 
+    // const handleSearchDebounced = _debounce((value) => {
+    //     setFilterSearch(value);
+    // }, 500);
+
+    // const handleSearch = (event) => {
+    //     setIsLoading(true);
+    //     handleSearchDebounced(event.target.value);
+    // };
+
+    // const handleSearchDebounced = React.useCallback(
+    //     _debounce((value) => {
+    //         setFilterSearch(value);
+    //     }, 500),
+    //     [setFilterSearch]
+    // );
+
+    // React.useEffect(() => {
+    //     setIsLoading(true);
+    //     handleSearchDebounced(filterSearch);
+    // }, [filterSearch, handleSearchDebounced]);
+
     React.useEffect(() => {
         let result = null;
         const filterPriceDefault = sortOptions[0];
+        setIsLoading(true);
+
         if (filterPrice !== filterPriceDefault || filterSearch !== '') {
             result = books
                 .filter(
@@ -46,10 +72,19 @@ function Booklist() {
                 ? result.sort((a, b) => a.price - b.price)
                 : result
         );
+        // setIsLoading(false);
+        setTimeout(() => setIsLoading(false), 500);
     }, [filterPrice, filterSearch, books]);
+
+    // React.useEffect(() => {
+    //     if (filteredItems !== null) {
+    //         setIsLoading(false);
+    //     }
+    // }, [filteredItems]);
 
     return (
         <main>
+            {isLoading && <Loader />}
             <section className={styles.search_block}>
                 <div className={styles.box}>
                     <div className={styles.container}>
@@ -68,8 +103,8 @@ function Booklist() {
                         </span>
                         <input
                             value={filterSearch}
-                            onChange={(value) => {
-                                setFilterSearch(value.target.value);
+                            onChange={(event) => {
+                                setFilterSearch(event.target.value);
                             }}
                             className={styles.search}
                             type='search'

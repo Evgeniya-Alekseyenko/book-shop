@@ -3,6 +3,7 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 
 import { MainContext } from '../../context/MainContext';
 import { useModal } from 'react-hooks-use-modal';
+import Loader from '../Loader';
 
 import styles from './SpecificBook.module.scss';
 
@@ -21,6 +22,7 @@ const SpecificBook = () => {
     const [cartCount, setCartCount] = React.useState(
         parseInt(localStorage.getItem('cartCount')) || 0
     );
+    const [isLoading, setIsLoading] = React.useState(true);
 
     React.useEffect(() => {
         const totalCount = (inputValue * book.price).toFixed(2);
@@ -40,6 +42,8 @@ const SpecificBook = () => {
             setInputError('You can enter more than 1 and less than 42');
             setInputValue('');
         }
+        // setIsLoading(false);
+        setTimeout(() => setIsLoading(false), 500);
     }, [books, bookId, inputValue, book]);
 
     const createCartItem = (book, count) => ({
@@ -92,6 +96,7 @@ const SpecificBook = () => {
 
     return (
         <section>
+            {isLoading && <Loader />}
             <div className={styles.wrapper}>
                 <div className={styles.wrapper__column}>
                     <img
