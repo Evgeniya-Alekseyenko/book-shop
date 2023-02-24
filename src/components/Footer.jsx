@@ -1,4 +1,16 @@
+import React from 'react';
+
 function Footer() {
+    const [currentYear, setCurrentYear] = React.useState(
+        new Date().getFullYear()
+    );
+
+    React.useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCurrentYear(new Date().getFullYear());
+        }, 1000 * 60 * 60 * 24); // обновляем год каждые 24 часа
+        return () => clearInterval(intervalId);
+    }, []);
     return (
         <footer>
             <div className='footer'>
@@ -11,7 +23,7 @@ function Footer() {
                     >
                         Prometheus
                     </a>
-                    © 2023
+                    © {currentYear}
                 </h1>
             </div>
         </footer>
