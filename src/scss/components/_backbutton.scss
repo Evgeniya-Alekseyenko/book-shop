@@ -1,0 +1,20 @@
+@import '../variables';
+
+.back_btn {
+    max-width: 300px;
+    background-color: $black;
+    color: $white;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    font-family: $secondary-font-family;
+    font-size: $main-font-size;
+    border-radius: $border-radius;
+    margin-top: 10px;
+
+    &:hover,
+    &:active {
+        background-color: lighten($color: $black, $amount: 30);
+    }
+}

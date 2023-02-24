@@ -1,8 +1,9 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 
 import CartEmpty from './CartEmpty';
 import CartItem from './CartItem';
+import BackButton from '../BackButton';
 
 import styles from './Cart.module.scss';
 
@@ -16,6 +17,7 @@ const Cart = () => {
 
     const handleSubmit = () => {
         localStorage.removeItem('cart');
+        localStorage.removeItem('cartCount');
         navigate(fromPage, { replace: true });
         setCart(null);
     };
@@ -37,11 +39,17 @@ const Cart = () => {
                 ? setCart(newCart)
                 : localStorage.removeItem('cart') || setCart(null);
         }
+        localStorage.removeItem('cartCount');
         navigate(fromPage);
     }
 
     return (
         <>
+            {cart ? (
+                <div>
+                    <BackButton />
+                </div>
+            ) : null}
             <div className={styles.btn_container}>
                 <button
                     className={disBtn ? styles.btn_disabled : styles.btn}
@@ -51,21 +59,17 @@ const Cart = () => {
                     Purchase
                 </button>
             </div>
-            <main>
-                {cart ? (
-                    cart.map((obj) => (
+            {cart && (
+                <main>
+                    {cart.map((obj) => (
                         <CartItem
                             key={obj.id}
                             {...obj}
                             onChangeCart={updateCart}
                         />
-                    ))
-                ) : (
-                    <CartEmpty />
-                )}
-                {cart && (
+                    ))}
                     <div className={styles.amount}>
-                        Total amount:
+                        <span>Total amount: </span>
                         {cart
                             .reduce(
                                 (sum, cur) => sum + cur.price * cur.count,
@@ -73,9 +77,17 @@ const Cart = () => {
                             )
                             .toFixed(2)}
                         $
+                        <Link to='/booklist'>
+                            <div>
+                                <button type='submit' className={styles.btn}>
+                                    Back to books
+                                </button>
+                            </div>
+                        </Link>
                     </div>
-                )}
-            </main>
+                </main>
+            )}
+            {!cart && <CartEmpty />}
         </>
     );
 };
