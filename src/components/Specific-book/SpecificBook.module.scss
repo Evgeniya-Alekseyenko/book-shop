@@ -7,6 +7,7 @@ section {
     flex: 1 0 auto;
     padding: 20px;
 }
+
 .wrapper {
     display: flex;
     margin: 20px 0;
@@ -16,7 +17,6 @@ section {
     flex: 0 0 33%;
     line-height: 2;
 }
-
 .description_book {
     display: flex;
     flex-wrap: wrap;
@@ -50,6 +50,10 @@ section {
     overflow: hidden;
     box-shadow: 2px 4px 4px $black;
 }
+.book_cover:hover {
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}
 .column_price {
     padding-left: 25%;
 }
@@ -58,6 +62,7 @@ section {
     font-size: $main-font-size;
 }
 .input_count {
+    font-size: 20px;
     padding: 10px;
     margin-left: 5px;
     border-radius: $border-radius;
@@ -65,6 +70,10 @@ section {
     outline: none;
     border: none;
 }
+.btn_input {
+    padding: 5px 15px;
+}
+
 // pageBook block
 
 .card {
@@ -77,9 +86,9 @@ section {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     box-shadow: 6px 6px 6px $black;
     font-size: 12px;
-    background-color: $white;
     transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
 
     &:hover {
@@ -109,7 +118,54 @@ section {
     border-radius: $border-radius;
     font-family: $main-font-family;
     line-height: 1.5;
+    -webkit-clip-path: polygon(
+        0% 0%,
+        100% 0%,
+        100% 93%,
+        76% 93%,
+        51% 100%,
+        26% 92%,
+        0 92%
+    );
+    clip-path: polygon(
+        0% 0%,
+        100% 0%,
+        100% 93%,
+        76% 93%,
+        51% 100%,
+        26% 92%,
+        0 92%
+    );
     .btn {
         margin-top: 10px;
+    }
+}
+
+// media queries
+
+@media (max-width: 900px) {
+    .wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+    .column_price {
+        padding: 0;
+        max-width: 400px;
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+@media (max-width: 800px) {
+    .card {
+        width: 400px;
+        padding: 50px 20px;
+    }
+}
+@media (max-width: 480px) {
+    .short_desc {
+        font-size: 14px;
     }
 }

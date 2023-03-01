@@ -1,4 +1,4 @@
-import React from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 
 import { MainContext } from '../../context/MainContext';
@@ -7,44 +7,81 @@ import Loader from '../Loader';
 
 import styles from './SpecificBook.module.scss';
 
+// удалить консоли, комментарии
+// стили для кнопок сделать
+// протестить инпут на всё
+// сделать дизейбл для кнопок +, -, add to cart
+// переписать тест на -
+// дописать еще тестов?
+
 const SpecificBook = () => {
-    const { books } = React.useContext(MainContext);
-    const [book, setBook] = React.useState({});
-    const [inputValue, setInputValue] = React.useState(1);
-    const [totalPrice, setTotalPrice] = React.useState(0);
-    const [inputError, setInputError] = React.useState('');
+    const { books } = useContext(MainContext);
+    const [book, setBook] = useState({});
+    const [inputValue, setInputValue] = useState(1);
+    const [totalPrice, setTotalPrice] = useState(null);
+    const [inputError, setInputError] = useState('');
     const { bookId } = useParams();
     const navigate = useNavigate();
     const [Modal, open, close, isOpen] = useModal('root', {
         preventScroll: true,
         closeOnOverlayClick: false,
     });
-    const [cartCount, setCartCount] = React.useState(
+    const [cartCount, setCartCount] = useState(
         parseInt(localStorage.getItem('cartCount')) || 0
     );
-    const [isLoading, setIsLoading] = React.useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
-    React.useEffect(() => {
-        const totalCount = (inputValue * book.price).toFixed(2);
+    const getBookCount = (cart, bookId) => {
+        return cart.reduce((count, cartItem) => {
+            if (cartItem.id === bookId) {
+                return count + cartItem.count;
+            }
+            return count;
+        }, 0);
+    };
+    const count = getBookCount(
+        JSON.parse(localStorage.getItem('cart') || '[]'),
+        book.id
+    );
+
+    useEffect(() => {
+        if (book.price) {
+            setTotalPrice((inputValue * book.price).toFixed(2));
+            setIsLoading(false);
+        }
+    }, [book]);
+
+    useEffect(() => {
+        if (isNaN(inputValue)) {
+            setInputValue('');
+        } else {
+            if (parseInt(inputValue) > 0 && parseInt(inputValue) <= 42) {
+                setTotalPrice((inputValue * book.price).toFixed(2));
+                setInputError('');
+            } else {
+                if (parseInt(inputValue) > 42) {
+                    setInputValue(42);
+                }
+                if (parseInt(inputValue) < 1) {
+                    setInputValue('');
+                }
+                setInputError('You can enter more than 1 and less than 42');
+                // блокировка кнопки доб в корзину
+            }
+        }
+    }, [inputValue]);
+
+    useEffect(() => {
         const specificBook = books?.find(
             (el) => parseInt(el.id) === parseInt(bookId)
         );
         if (specificBook) {
             setBook(specificBook);
+            setTotalPrice((inputValue * specificBook.price).toFixed(2));
+            setIsLoading(false);
         }
-        if (book) {
-            setTotalPrice(totalCount);
-        }
-        if (inputValue && inputValue > 0 && inputValue <= 42) {
-            setTotalPrice((inputValue * book.price).toFixed(2));
-            setInputError('');
-        } else {
-            setInputError('You can enter more than 1 and less than 42');
-            setInputValue('');
-        }
-        // setIsLoading(false);
-        setTimeout(() => setIsLoading(false), 500);
-    }, [books, bookId, inputValue, book]);
+        console.log('RENDER');
+    }, [books, bookId]);
 
     const createCartItem = (book, count) => ({
         id: book.id,
@@ -78,130 +115,184 @@ const SpecificBook = () => {
         }
     };
 
-    const getBookCount = (cart, bookId) => {
-        return cart.reduce((count, cartItem) => {
-            if (cartItem.id === bookId) {
-                return count + cartItem.count;
-            }
-            return count;
-        }, 0);
+    const decrement = () => {
+        setInputValue(inputValue - 1);
     };
-    const count = getBookCount(
-        JSON.parse(localStorage.getItem('cart') || '[]'),
-        book.id
-    );
-    React.useEffect(() => {
-        setCartCount(count);
-    }, [count]);
+    const increment = () => {
+        setInputValue(inputValue + 1);
+    };
+
+    // должны блокироваться и блокироваться кнопка доб в корзину
 
     return (
-        <section>
-            {isLoading && <Loader />}
-            <div className={styles.wrapper}>
-                <div className={styles.wrapper__column}>
-                    <img
-                        className={styles.book_cover}
-                        src={
-                            book?.image ||
-                            'https://via.placeholder.com/250x328.png?text=No+Image'
-                        }
-                        alt="book's foto"
-                    />
-                </div>
-                <div className={styles.wrapper__column}>
-                    <h2>
-                        Book name:
-                        <span className={styles.book_value}>{book.title}</span>
-                    </h2>
-                    <h2>
-                        Book author:
-                        <span className={styles.book_value}>{book.author}</span>
-                    </h2>
-                    <p className={styles.short_desc}>
-                        <span className={styles.tags}>Short description:</span>
-                        {book.shortDescription}
-                    </p>
-                </div>
-                <div className={styles.wrapper__column}>
-                    <div className={styles.column_price}>
-                        <div>
-                            <h3 className={styles.count}>
-                                Price:
-                                <span className={styles.book_value} id='price'>
-                                    {book.price}
-                                </span>
-                            </h3>
-                        </div>
-                        <div>
-                            {inputError && (
-                                <div style={{ color: 'red' }}>{inputError}</div>
-                            )}
-                            <label className={styles.count}>Count: </label>
-                            <input
-                                value={inputValue}
-                                onChange={(e) =>
-                                    setInputValue(Math.round(e.target.value))
+        <main>
+            {isLoading ? (
+                <Loader />
+            ) : (
+                <>
+                    <div className={styles.wrapper}>
+                        <div className={styles.wrapper__column}>
+                            <img
+                                className={styles.book_cover}
+                                src={
+                                    book?.image ||
+                                    'https://via.placeholder.com/250x328.png?text=No+Image'
                                 }
-                                type='number'
-                                name='count'
-                                className={styles.input_count}
+                                alt={book.title}
                             />
                         </div>
-                        <div className={styles.count}>
-                            Total price:
-                            <span className={styles.book_value} id='totalPrice'>
-                                {totalPrice}
-                            </span>
+                        <div className={styles.wrapper__column}>
+                            <h2>
+                                Book name:
+                                <span className={styles.book_value}>
+                                    {book.title}
+                                </span>
+                            </h2>
+                            <h2>
+                                Book author:
+                                <span className={styles.book_value}>
+                                    {book.author}
+                                </span>
+                            </h2>
+                            <p className={styles.short_desc}>
+                                <span className={styles.tags}>
+                                    Short description:
+                                </span>
+                                {book.shortDescription}
+                            </p>
                         </div>
-                        <div className={styles.count}>
-                            Already in cart:
-                            <span className={styles.book_value} id='totalPrice'>
-                                {count}
-                            </span>
-                        </div>
-                        <div className={styles.btn_box}>
-                            <button
-                                type='submit'
-                                className={styles.btn}
-                                onClick={onAddToCart}
-                            >
-                                Add to cart
-                            </button>
-                        </div>
-                        <Link to='/booklist'>
-                            <div>
-                                <button type='submit' className={styles.btn}>
-                                    Back to books
-                                </button>
+                        <div className={styles.wrapper__column}>
+                            <div className={styles.column_price}>
+                                <div>
+                                    <h3 className={styles.count}>
+                                        Price:
+                                        <span
+                                            className={styles.book_value}
+                                            id='price'
+                                            data-testid='price'
+                                        >
+                                            {book.price}
+                                        </span>
+                                    </h3>
+                                </div>
+                                <div>
+                                    {inputError && (
+                                        <div
+                                            style={{ color: 'red' }}
+                                            data-testid='error'
+                                        >
+                                            {inputError}
+                                        </div>
+                                    )}
+                                    <label
+                                        htmlFor='countInput'
+                                        className={styles.count}
+                                    >
+                                        Count:
+                                    </label>
+                                    <div>
+                                        <button
+                                            onClick={decrement}
+                                            data-testid='decrement'
+                                            className={`${styles.btn} ${styles.btn_input}`}
+                                        >
+                                            -
+                                        </button>
+                                        <input
+                                            data-testid='number-input'
+                                            id='countInput'
+                                            value={inputValue}
+                                            onChange={(e) =>
+                                                setInputValue(
+                                                    Math.round(e.target.value)
+                                                )
+                                            }
+                                            type='text'
+                                            name='count'
+                                            className={styles.input_count}
+                                        />
+                                        <button
+                                            onClick={increment}
+                                            data-testid='increment'
+                                            className={`${styles.btn} ${styles.btn_input}`}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className={styles.count}>
+                                    Total price:
+                                    <span
+                                        className={styles.book_value}
+                                        id='totalPrice'
+                                        data-testid='totalPrice'
+                                    >
+                                        {totalPrice}
+                                    </span>
+                                </div>
+                                <div className={styles.count}>
+                                    Already in cart:
+                                    <span
+                                        className={styles.book_value}
+                                        id='totalPrice'
+                                    >
+                                        {count}
+                                    </span>
+                                </div>
+                                <div className={styles.btn_box}>
+                                    <button
+                                        type='submit'
+                                        className={styles.btn}
+                                        onClick={onAddToCart}
+                                    >
+                                        Add to cart
+                                    </button>
+                                </div>
+                                <Link to='/booklist'>
+                                    <div>
+                                        <button
+                                            type='submit'
+                                            className={styles.btn}
+                                        >
+                                            Back to books
+                                        </button>
+                                    </div>
+                                </Link>
                             </div>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-            <div className={styles.description_book}>
-                <div className={styles.description}>
-                    {isOpen
-                        ? 'Read more about the book'
-                        : 'More about the book'}
-                </div>
-                ▶
-                <button onClick={open} className={styles.btn}>
-                    OPEN
-                </button>
-                <Modal>
-                    <div className={styles.modal}>
-                        <h1>{book.title}</h1>
-                        <p>{book.description}</p>
-                        <div>
-                            <button onClick={close} className={styles.btn}>
-                                CLOSE
-                            </button>
                         </div>
                     </div>
-                </Modal>
-            </div>
-        </section>
+                    <div className={styles.description_book}>
+                        <div className={styles.description}>
+                            {isOpen
+                                ? 'Read more about the book'
+                                : 'More about the book'}
+                        </div>
+                        ▶
+                        <button onClick={open} className={styles.btn}>
+                            OPEN
+                        </button>
+                        <Modal>
+                            <div className={styles.modal}>
+                                <h1>{book.title}</h1>
+                                <p>{book.description}</p>
+                                <div>
+                                    <button
+                                        onClick={close}
+                                        className={styles.btn}
+                                    >
+                                        CLOSE
+                                    </button>
+                                </div>
+                            </div>
+                        </Modal>
+                    </div>
+                </>
+            )}
+        </main>
     );
 };
+// };
 
 export default SpecificBook;
+
+//label htmlFor
