@@ -6,7 +6,6 @@ import Sort from '../Sort';
 import { sortOptions } from '../Sort';
 import { MainContext } from '../../context/MainContext';
 import Loader from '../Loader';
-import _debounce from 'lodash/debounce';
 
 import styles from './Booklist.module.scss';
 
@@ -16,7 +15,6 @@ function Booklist() {
     const [filterPrice, setFilterPrice] = React.useState(sortOptions[0]);
     const [filterSearch, setFilterSearch] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(true);
-
     const [Modal, open, close] = useModal('root', {
         preventScroll: true,
         closeOnOverlayClick: false,
@@ -28,31 +26,9 @@ function Booklist() {
         sessionStorage.setItem('knows_about_offline', true);
     };
 
-    // const handleSearchDebounced = _debounce((value) => {
-    //     setFilterSearch(value);
-    // }, 500);
-
-    // const handleSearch = (event) => {
-    //     setIsLoading(true);
-    //     handleSearchDebounced(event.target.value);
-    // };
-
-    // const handleSearchDebounced = React.useCallback(
-    //     _debounce((value) => {
-    //         setFilterSearch(value);
-    //     }, 500),
-    //     [setFilterSearch]
-    // );
-
-    // React.useEffect(() => {
-    //     setIsLoading(true);
-    //     handleSearchDebounced(filterSearch);
-    // }, [filterSearch, handleSearchDebounced]);
-
     React.useEffect(() => {
         let result = null;
         const filterPriceDefault = sortOptions[0];
-        setIsLoading(true);
 
         if (filterPrice !== filterPriceDefault || filterSearch !== '') {
             result = books
@@ -72,15 +48,8 @@ function Booklist() {
                 ? result.sort((a, b) => a.price - b.price)
                 : result
         );
-        // setIsLoading(false);
-        setTimeout(() => setIsLoading(false), 500);
+        setIsLoading(false);
     }, [filterPrice, filterSearch, books]);
-
-    // React.useEffect(() => {
-    //     if (filteredItems !== null) {
-    //         setIsLoading(false);
-    //     }
-    // }, [filteredItems]);
 
     return (
         <main>
@@ -119,11 +88,17 @@ function Booklist() {
                 />
             </section>
             <section id='cards'>
-                <div className={styles.card_container}>
-                    {(filteredItems ?? books).map((obj) => (
-                        <PageBook key={obj.id} {...obj} />
-                    ))}
-                </div>
+                {filteredItems?.length !== 0 && filteredItems !== [] ? (
+                    <div className={styles.card_container}>
+                        {(filteredItems ?? books).map((obj) => (
+                            <PageBook key={obj.id} {...obj} />
+                        ))}
+                    </div>
+                ) : (
+                    <div className={styles.unfound_books}>
+                        Nothing found for your request 🤔
+                    </div>
+                )}
                 {JSON.parse(sessionStorage.getItem('knows_about_offline')) ===
                     false && (
                     <Modal onChange={open}>

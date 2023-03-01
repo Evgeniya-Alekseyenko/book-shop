@@ -56,7 +56,7 @@ main {
 .card_container {
     display: flex;
     flex-wrap: wrap;
-    margin: 20px 0;
+    margin: 20px;
     justify-content: space-between;
 }
 .modal {
@@ -69,9 +69,27 @@ main {
     max-width: 700px;
     border-radius: $border-radius;
     font-family: $main-font-family;
-    // font-family: $secondary-font-family;
     line-height: 1.5;
     .btn {
         margin-top: 10px;
+    }
+}
+.unfound_books {
+    color: red;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 10%;
+}
+
+@media (max-width: 800px) {
+    .card_container {
+        display: flex;
+        justify-content: center;
+    }
+}
+@media (max-width: 680px) {
+    .search_block {
+        display: flex;
+        flex-direction: column;
     }
 }
