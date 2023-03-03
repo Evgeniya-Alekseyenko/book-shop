@@ -14,7 +14,7 @@ const CartItem = ({ image, price, title, count, total, id, onChangeCart }) => {
                                 ? image
                                 : 'https://via.placeholder.com/250x328.png?text=No+Image'
                         }
-                        alt='book cover'
+                        alt={title}
                         height={100}
                     />
                 </div>

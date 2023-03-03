@@ -24,7 +24,7 @@ const PageBook = ({
                             ? image
                             : 'https://via.placeholder.com/250x328.png?text=No+Image'
                     }
-                    alt="book's foto"
+                    alt={title}
                 />
             </div>
             <div className={styles.wrapper__column}>
