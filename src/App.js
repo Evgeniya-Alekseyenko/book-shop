@@ -9,21 +9,17 @@ import Booklist from './components/Book-list/Booklist.jsx';
 import NotFoundBlock from './components/NotFoundPage/NotFoundPage.jsx';
 import Cart from './components/Cart/Cart.jsx';
 
+import { LocalStorageService, LS_KEYS } from './services/LocalStorage.js';
 import { RequireAuth } from './hooks/RequireAuth.jsx';
-// import { AuthProvider } from './context/AuthProvider.jsx';
-// import { CartContextProvider } from './context/CartProvider.jsx';
-
 import { MainContextProvider } from './context/MainContextProvider';
 
 import './scss/app.scss';
 
-const user = JSON.parse(localStorage.getItem('user'));
+const user = LocalStorageService.get(LS_KEYS.USERNAME);
 
 function App() {
     return (
         <div className='wrapper'>
-            {/* <CartContextProvider> */}
-            {/* <AuthProvider> */}
             <MainContextProvider>
                 <Header />
                 <Routes>
@@ -32,7 +28,6 @@ function App() {
                         path='/booklist'
                         element={
                             <RequireAuth>
-                                {/* <Booklist searchValue={searchValue} /> */}
                                 <Booklist />
                             </RequireAuth>
                         }
@@ -65,13 +60,9 @@ function App() {
                     />
                 </Routes>
                 <Footer />
-                {/* </AuthProvider> */}
-                {/* </CartContextProvider> */}
             </MainContextProvider>
         </div>
     );
 }
 
 export default App;
-
-// проверить наименование папок (hooks?)

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { BigHead } from '@bigheads/core';
 
+import { LocalStorageService, LS_KEYS } from '../services/LocalStorage';
+import { BigHead } from '@bigheads/core';
 import { getRandomOptions } from '../utils/bigheads';
 import cartIcon from '../assets/images/cart.svg';
 
@@ -10,12 +11,12 @@ function Header() {
     const navigate = useNavigate();
     const location = useLocation();
     const fromPage = location.state?.from?.pathname || '/';
-    const user = JSON.parse(localStorage.getItem('user'));
-    const cart = JSON.parse(localStorage.getItem('cart'));
+    const user = LocalStorageService.get(LS_KEYS.USERNAME);
+    const cart = LocalStorageService.get(LS_KEYS.CART);
 
     const handleSubmit = () => {
-        localStorage.removeItem('user');
-        localStorage.removeItem('cart');
+        LocalStorageService.remove(LS_KEYS.USERNAME);
+        LocalStorageService.remove(LS_KEYS.CART);
         sessionStorage.removeItem('knows_about_offline');
         navigate(fromPage, { replace: true });
     };
@@ -25,7 +26,9 @@ function Header() {
             {user ? (
                 <div className='header'>
                     <Link to='/booklist'>
-                        <h1>X-course task / Alekseyenko Yevgeniya</h1>
+                        <h1 className='header_link'>
+                            X-course task / Alekseyenko Yevgeniya
+                        </h1>
                     </Link>
                     <div className='header_right'>
                         <Link to='/cart'>

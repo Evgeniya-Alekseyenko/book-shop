@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { LocalStorageService, LS_KEYS } from '../../services/LocalStorage';
 import avatar from '../../assets/images/avatar.png';
 
 import styles from './Signin.module.scss';
@@ -19,13 +20,16 @@ function Signin() {
         const form = event.target;
         const user = form.username.value;
 
-        if (!localStorage.getItem('user')) {
-            localStorage.setItem('user', JSON.stringify(user));
+        if (!LocalStorageService.get(LS_KEYS.USERNAME)) {
+            LocalStorageService.set(LS_KEYS.USERNAME, user);
             navigate(fromPage, { replace: true });
         }
     };
     useEffect(() => {
         if (localStorage.getItem('user')) {
+            navigate('/booklist');
+        }
+        if (LocalStorageService.get(LS_KEYS.USERNAME)) {
             navigate('/booklist');
         }
     }, [navigate]);
@@ -47,10 +51,11 @@ function Signin() {
             {userNameError && (
                 <div style={{ color: 'red' }}>{userNameError}</div>
             )}
-            <form onSubmit={handleSubmit}>
-                <label>
+            <form onSubmit={handleSubmit} className={styles.form_container}>
+                <label htmlFor='signinInput'>
                     <div>
                         <input
+                            id='signinInput'
                             value={userName}
                             onChange={(e) => setUserName(e.target.value.trim())}
                             type='text'
@@ -69,6 +74,12 @@ function Signin() {
                     Sign-in
                 </button>
             </form>
+            <blockquote>
+                <p>Imagination is the only weapon in the war against reality</p>
+                <footer>
+                    — <cite>Lewis Carroll</cite>
+                </footer>
+            </blockquote>
         </main>
     );
 }
