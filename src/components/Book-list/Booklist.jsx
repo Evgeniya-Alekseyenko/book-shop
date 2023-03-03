@@ -1,20 +1,20 @@
-import React from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useModal } from 'react-hooks-use-modal';
 
+import { MainContext } from '../../context/MainContext';
 import PageBook from '../Specific-book/PageBook';
 import Sort from '../Sort';
 import { sortOptions } from '../Sort';
-import { MainContext } from '../../context/MainContext';
 import Loader from '../Loader';
 
 import styles from './Booklist.module.scss';
 
 function Booklist() {
-    const { books } = React.useContext(MainContext);
-    const [filteredItems, setFilteredItems] = React.useState(null);
-    const [filterPrice, setFilterPrice] = React.useState(sortOptions[0]);
-    const [filterSearch, setFilterSearch] = React.useState('');
-    const [isLoading, setIsLoading] = React.useState(true);
+    const { books } = useContext(MainContext);
+    const [filteredItems, setFilteredItems] = useState(null);
+    const [filterPrice, setFilterPrice] = useState(sortOptions[0]);
+    const [filterSearch, setFilterSearch] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
     const [Modal, open, close] = useModal('root', {
         preventScroll: true,
         closeOnOverlayClick: false,
@@ -26,7 +26,7 @@ function Booklist() {
         sessionStorage.setItem('knows_about_offline', true);
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         let result = null;
         const filterPriceDefault = sortOptions[0];
 

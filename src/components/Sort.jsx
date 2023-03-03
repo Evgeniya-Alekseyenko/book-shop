@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 
 export const sortOptions = [
     {
@@ -24,7 +24,7 @@ export const sortOptions = [
 ];
 
 function Sort({ value, onChangeSort }) {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const onClickListItem = (i) => {
         onChangeSort(i);

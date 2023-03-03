@@ -1,6 +1,7 @@
 @import '../variables';
 
 .header {
+    background: $white;
     margin: 10px;
     padding: 20px;
     font-family: $secondary-font-family;
@@ -10,6 +11,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.header_link:hover {
+    color: $black;
 }
 .header_right {
     font-size: 24px;
@@ -45,5 +49,28 @@
         border-radius: 50%;
         color: $white;
         line-height: 25px;
+    }
+}
+
+// media queres
+
+@media (max-width: 680px) {
+    .header {
+        font-size: 14px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+}
+@media (max-width: 480px) {
+    .header_right {
+        min-width: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        flex-direction: column;
+        div {
+            margin: 10px;
+        }
     }
 }

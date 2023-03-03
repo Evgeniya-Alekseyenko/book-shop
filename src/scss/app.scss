@@ -3,20 +3,31 @@
 
 @import './components/all';
 
+/* Скрыть полосу прокрутки для всех браузеров */
+
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    display: none;
+}
+::-moz-scrollbar {
+    width: 0px;
+    height: 0px;
+    display: none;
+}
+
 .wrapper {
+    color: grey;
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background-image: url(../assets/images/background.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
+    background: rgb(237, 244, 252);
     max-width: 1400px;
     margin: 0 auto;
     border-radius: $border-radius;
     padding: 20px;
     font-family: $main-font-family;
-    overflow: scroll;
-    overflow-x: hidden;
+    overflow: auto;
     box-sizing: border-box;
     text-align: center;
 }

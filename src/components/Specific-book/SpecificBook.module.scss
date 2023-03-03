@@ -73,6 +73,24 @@ section {
 .btn_input {
     padding: 5px 15px;
 }
+.btn_disabled {
+    padding: 5px 15px;
+    margin: 20px;
+    border-radius: 50%;
+    box-shadow: 4px 4px 4px $black;
+    font-family: $secondary-font-family;
+    font-size: $main-font-size;
+    color: grey;
+}
+.btn_disabledCart {
+    min-width: 200px;
+    padding: 10px 15px;
+    margin: 20px;
+    border-radius: $border-radius;
+    box-shadow: 4px 4px 4px $black;
+    font-family: $secondary-font-family;
+    font-size: $main-font-size;
+}
 
 // pageBook block
 

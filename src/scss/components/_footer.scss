@@ -1,6 +1,17 @@
 @import '../variables';
 
+.footer {
+    background: $white;
+    border: 1px solid $white;
+    border-radius: $border-radius;
+    box-shadow: 4px 6px 6px $black;
+    padding: 30px;
+    font-family: $secondary-font-family;
+}
 a {
     margin: 10px;
     color: $color-hover;
+}
+a:hover {
+    color: $black;
 }

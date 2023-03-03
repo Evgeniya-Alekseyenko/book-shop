@@ -1,9 +1,11 @@
 import { useLocation, Navigate } from 'react-router-dom';
 
+import { LocalStorageService, LS_KEYS } from '../services/LocalStorage';
+
 const RequireAuth = ({ children }) => {
     const location = useLocation();
 
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = LocalStorageService.get(LS_KEYS.USERNAME);
 
     if (!user) {
         return <Navigate to='/' state={{ from: location }} />;
