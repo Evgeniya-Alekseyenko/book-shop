@@ -1,5 +1,6 @@
 {
-    "name": "x-course-task",
+    "name": "prometheus-x-course-task",
+    "homepage": "https://Evgeniya-Alekseyenko.github.io/prometheus-x-course-task",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -22,7 +23,9 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "jest-preview": "jest-preview"
+        "jest-preview": "jest-preview",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build"
     },
     "eslintConfig": {
         "extends": [
@@ -47,6 +50,7 @@
         "@babel/plugin-syntax-jsx": "^7.18.6",
         "@babel/preset-env": "^7.20.2",
         "@babel/preset-react": "^7.18.6",
+        "gh-pages": "^5.0.0",
         "jest-preview": "^0.3.1",
         "react-test-renderer": "^18.2.0"
     },
