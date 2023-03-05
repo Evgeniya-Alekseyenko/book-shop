@@ -6,7 +6,7 @@ import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <BrowserRouter basename='/prometheus-x-course-task'>
+    <BrowserRouter>
         <React.StrictMode>
             <App />
         </React.StrictMode>
