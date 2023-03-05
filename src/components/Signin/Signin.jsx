@@ -20,8 +20,8 @@ function Signin() {
         const form = event.target;
         const user = form.username.value;
 
-        if (!LocalStorageService.get(LS_KEYS.USERNAME)) {
-            LocalStorageService.set(LS_KEYS.USERNAME, user);
+        if (!LocalStorageService.get(LS_KEYS.USER)) {
+            LocalStorageService.set(LS_KEYS.USER, user);
             navigate(fromPage, { replace: true });
         }
     };
@@ -29,7 +29,7 @@ function Signin() {
         if (localStorage.getItem('user')) {
             navigate('/booklist');
         }
-        if (LocalStorageService.get(LS_KEYS.USERNAME)) {
+        if (LocalStorageService.get(LS_KEYS.USER)) {
             navigate('/booklist');
         }
     }, [navigate]);

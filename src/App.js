@@ -15,7 +15,7 @@ import { MainContextProvider } from './context/MainContextProvider';
 
 import './scss/app.scss';
 
-const user = LocalStorageService.get(LS_KEYS.USERNAME);
+const user = LocalStorageService.get(LS_KEYS.USER);
 
 function App() {
     return (

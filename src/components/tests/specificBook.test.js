@@ -39,7 +39,7 @@ describe('SpecificBook', () => {
     ];
 
     const renderComp = (bookId = '20') => {
-        LocalStorageService.set(LS_KEYS.USERNAME, 'Jane');
+        LocalStorageService.set(LS_KEYS.USER, 'Jane');
         useParams.mockImplementation(() => ({
             bookId: bookId,
         }));
@@ -54,7 +54,7 @@ describe('SpecificBook', () => {
     };
 
     beforeEach(() => {
-        LocalStorageService.remove(LS_KEYS.USERNAME);
+        LocalStorageService.remove(LS_KEYS.USER);
     });
 
     it('renders component', () => {

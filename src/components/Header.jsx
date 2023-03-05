@@ -11,19 +11,17 @@ function Header() {
     const navigate = useNavigate();
     const location = useLocation();
     const fromPage = location.state?.from?.pathname || '/';
-    const user = LocalStorageService.get(LS_KEYS.USERNAME);
-    const cart = LocalStorageService.get(LS_KEYS.CART);
+    const username = LocalStorageService.get(LS_KEYS.USER);
 
     const handleSubmit = () => {
-        LocalStorageService.remove(LS_KEYS.USERNAME);
-        LocalStorageService.remove(LS_KEYS.CART);
+        LocalStorageService.remove(LS_KEYS.USER);
         sessionStorage.removeItem('knows_about_offline');
         navigate(fromPage, { replace: true });
     };
 
     return (
         <header>
-            {user ? (
+            {username ? (
                 <div className='header'>
                     <Link to='/booklist'>
                         <h1 className='header_link'>
@@ -35,7 +33,7 @@ function Header() {
                             <div className='cart'>
                                 <img src={cartIcon} alt='cart' width={50} />
                                 <div className='circle'>
-                                    {cart ? cart.length : 0}
+                                    {LocalStorageService.getUserCart().length}
                                 </div>
                             </div>
                         </Link>
@@ -53,7 +51,7 @@ function Header() {
                             <div style={{ width: '100px' }}>
                                 <BigHead {...getRandomOptions()} />
                             </div>
-                            <span>{user}</span>
+                            <span>{username}</span>
                         </div>
                     </div>
                 </div>

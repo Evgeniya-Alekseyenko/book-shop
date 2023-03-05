@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 
-import { LocalStorageService, LS_KEYS } from '../../services/LocalStorage';
+import { LocalStorageService } from '../../services/LocalStorage';
 import CartEmpty from './CartEmpty';
 import CartItem from './CartItem';
 import BackButton from '../BackButton';
@@ -18,37 +18,35 @@ const Cart = () => {
     const fromPage = location.state?.from?.pathname || '/cart';
 
     const handleSubmit = () => {
-        LocalStorageService.remove(LS_KEYS.CART);
-        LocalStorageService.remove(LS_KEYS.CARTCOUNT);
+        LocalStorageService.removeUserCart();
         navigate(fromPage, { replace: true });
         setCart(null);
     };
 
     useEffect(() => {
-        setCart(LocalStorageService.get(LS_KEYS.CART));
+        setCart(LocalStorageService.getUserCart());
         setIsLoading(false);
     }, []);
 
     useEffect(() => {
-        setDisBtn(!cart);
+        setDisBtn(!cart?.length);
     }, [cart]);
 
     function updateCart(id) {
         if (cart) {
             const newCart = cart.filter((cartItem) => cartItem.id !== id);
-            LocalStorageService.set(LS_KEYS.CART, newCart);
+            LocalStorageService.setUserCart(newCart);
+
             newCart.length > 0
                 ? setCart(newCart)
-                : LocalStorageService.remove(LS_KEYS.CART) || setCart(null);
+                : LocalStorageService.removeUserCart() || setCart(null);
         }
-        LocalStorageService.remove(LS_KEYS.CARTCOUNT);
-
         navigate(fromPage);
     }
     return (
         <main>
             {isLoading && <Loader />}
-            {cart ? (
+            {cart?.length ? (
                 <div>
                     <BackButton />
                 </div>
@@ -62,7 +60,7 @@ const Cart = () => {
                     Purchase
                 </button>
             </div>
-            {cart && (
+            {cart?.length > 0 && (
                 <main>
                     {cart.map((obj) => (
                         <CartItem
@@ -90,7 +88,7 @@ const Cart = () => {
                     </div>
                 </main>
             )}
-            {!cart && <CartEmpty />}
+            {!cart?.length && <CartEmpty />}
         </main>
     );
 };

@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 
-import { LocalStorageService, LS_KEYS } from '../../services/LocalStorage';
+import { LocalStorageService } from '../../services/LocalStorage';
 import { MainContext } from '../../context/MainContext';
 import { useModal } from 'react-hooks-use-modal';
 import Loader from '../Loader';
@@ -21,9 +21,8 @@ const SpecificBook = () => {
         preventScroll: true,
         closeOnOverlayClick: false,
     });
-    const [cartCount, setCartCount] = useState(
-        parseInt(LocalStorageService.get(LS_KEYS.CARTCOUNT)) || 0
-    );
+
+    const [cartCount, setCartCount] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
 
     const getBookCount = (cart, bookId) => {
@@ -34,10 +33,8 @@ const SpecificBook = () => {
             return count;
         }, 0);
     };
-    const count = getBookCount(
-        LocalStorageService.get(LS_KEYS.CART) || JSON.parse('[]'),
-        book.id
-    );
+
+    const count = getBookCount(LocalStorageService.getUserCart(), book.id);
 
     useEffect(() => {
         if (book.price) {
@@ -79,6 +76,7 @@ const SpecificBook = () => {
             setTotalPrice((inputValue * specificBook.price).toFixed(2));
             setIsLoading(false);
         }
+
         // eslint-disable-next-line
     }, [books, bookId]);
 
@@ -93,8 +91,8 @@ const SpecificBook = () => {
 
     const onAddToCart = () => {
         if (inputValue) {
-            const cart =
-                LocalStorageService.get(LS_KEYS.CART) || JSON.parse('[]');
+            const cart = LocalStorageService.getUserCart();
+
             const matchingCartItem = cart.find((item) => item.id === book.id);
             if (matchingCartItem) {
                 matchingCartItem.image = book.image;
@@ -108,9 +106,8 @@ const SpecificBook = () => {
                 cart.push(cartBook);
                 navigate('/cart');
             }
-            LocalStorageService.set(LS_KEYS.CART, cart);
+            LocalStorageService.setUserCart(cart);
             const newCartCount = cartCount + inputValue;
-            LocalStorageService.set(LS_KEYS.CARTCOUNT, newCartCount);
             setCartCount(newCartCount);
         }
     };
@@ -196,11 +193,12 @@ const SpecificBook = () => {
                                     data-testid='number-input'
                                     id='countInput'
                                     value={inputValue}
-                                    onChange={(e) =>
+                                    onChange={(e) => {
                                         setInputValue(
                                             Math.round(e.target.value)
-                                        )
-                                    }
+                                        );
+                                        e.target.value = inputValue;
+                                    }}
                                     type='number'
                                     name='count'
                                     className={styles.input_count}
