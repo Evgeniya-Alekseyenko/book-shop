@@ -7,6 +7,8 @@ main {
     padding: 20px;
 }
 
+// filtering
+
 .search_block {
     display: flex;
     align-items: center;
@@ -54,6 +56,9 @@ main {
 .select:hover {
     outline: 2px solid $color-hover;
 }
+
+// main content
+
 .card_container {
     display: flex;
     flex-wrap: wrap;
@@ -81,6 +86,8 @@ main {
     font-weight: bold;
     margin-top: 10%;
 }
+
+// media queres
 
 @media (max-width: 800px) {
     .card_container {

@@ -26,9 +26,6 @@ function Signin() {
         }
     };
     useEffect(() => {
-        if (localStorage.getItem('user')) {
-            navigate('/booklist');
-        }
         if (LocalStorageService.get(LS_KEYS.USER)) {
             navigate('/booklist');
         }
