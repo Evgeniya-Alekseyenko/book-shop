@@ -1,6 +1,6 @@
 {
-    "name": "prometheus-x-course-task",
-    "homepage": "https://Evgeniya-Alekseyenko.github.io/prometheus-x-course-task",
+    "name": "book-shop",
+    "homepage": "https://Evgeniya-Alekseyenko.github.io/book-shop",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
